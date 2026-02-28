@@ -4,990 +4,819 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biprasish | Elite Video Editor</title>
+    <title>Biprasish Chakraborty — Video Editor</title>
     <meta name="description"
-        content="Professional Video Editor turning raw footage into scroll-stopping, high retention content that drives real growth. 10M+ views generated.">
+        content="Professional video editor crafting scroll-stopping, high-retention cinematic content. 10M+ views generated. Available for YouTube, Shorts, Commercial, and Motion Graphics work.">
+    <meta name="keywords"
+        content="video editor, YouTube editor, short form video, motion graphics, cinematic editing, Biprasish Chakraborty">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Biprasish Chakraborty — Video Editor">
+    <meta property="og:description" content="Turning raw footage into cinematic content that drives real growth.">
+    <meta property="og:type" content="website">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css">
-
     <!-- Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <!-- GSAP for Smooth Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.36/dist/lenis.min.js"></script>
 
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <!-- Preloader -->
-    <div class="preloader z-max">
-        <div class="loader-content">
-            <div class="loader-text scramble-text" data-text="INITIALIZING SYSTEM...">INITIALIZING SYSTEM...</div>
-            <div class="loader-percentage">0%</div>
-            <div class="loader-bar-container">
-                <div class="loader-bar glow-bar"></div>
+
+    <!-- ========== PRELOADER ========== -->
+    <div id="preloader">
+        <div class="pl-wrap">
+            <!-- SVG ring -->
+            <svg class="pl-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle class="pl-ring-track" cx="50" cy="50" r="42" />
+                <circle class="pl-ring-fill" cx="50" cy="50" r="42" />
+            </svg>
+            <!-- Monogram -->
+            <div class="pl-monogram">
+                <span class="pl-b">B</span>
             </div>
-            <div class="loader-noise"></div>
+        </div>
+        <!-- Word reveal below -->
+        <div class="pl-name">
+            <span class="pl-word pl-w1">Biprasish</span>
+            <span class="pl-word pl-w2">Chakraborty</span>
         </div>
     </div>
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
 
-    <!-- Background Architecture -->
-    <div class="bg-gradient-mesh">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="grid-overlay"></div>
-    </div>
-    <!-- Existing Particles -->
-    <canvas id="particles-canvas" class="z-back"></canvas>
-    <div class="noise-overlay"></div>
+    <!-- ========== CUSTOM CURSOR ========== -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
 
-    <!-- Navigation -->
-    <nav class="navbar relative-z">
-        <div class="container">
-            <a href="#" class="logo magnetic">creative<span class="highlight">edits</span>.mov</a>
-            <ul class="nav-links">
-                <li><a href="#showreel" class="nav-item hover-target">Showreel</a></li>
-                <li><a href="#portfolio" class="nav-item hover-target">Portfolio</a></li>
-                <li><a href="#services" class="nav-item hover-target">Services</a></li>
-                <li><a href="#about" class="nav-item hover-target">About</a></li>
-                <li><a href="#contact" class="btn-primary-sm glowing-btn hover-target">Get in Touch</a></li>
+    <!-- ========== NAVIGATION ========== -->
+    <nav id="navbar">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-logo" id="nav-logo-link">
+                <span class="logo-b">B</span><span class="logo-rest">iprasish</span>
+            </a>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#showreel" class="nav-link">Showreel</a></li>
+                <li><a href="#work" class="nav-link">Work</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
             </ul>
-            <div class="mobile-menu-toggle hover-target">
-                <i class="ph ph-list"></i>
-            </div>
+
+            <button class="nav-burger" id="nav-burger" aria-label="Toggle menu">
+                <span></span><span></span>
+            </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="hero relative-z overflow-hidden">
-        <!-- Hero Background Video -->
-        <div class="hero-bg-media">
-            <video src="showreel.mp4" autoplay loop muted playsinline class="bg-video"></video>
-            <div class="hero-overlay-gradient"></div>
-            <div class="hero-vignette"></div>
+    <!-- ========== HERO ========== -->
+    <section id="hero">
+        <!-- Subtle ambient background -->
+        <div class="hero-ambient">
+            <div class="ambient-blob blob-1"></div>
+            <div class="ambient-blob blob-2"></div>
         </div>
 
-        <div class="container hero-content center relative-z">
-            <div class="availability-pill animate-in hover-target">
-                <div class="status-dot"></div> Available for New Projects
+        <div class="hero-content">
+            <div class="hero-badge" id="hero-badge">
+                <span class="badge-dot"></span>
+                <span>Available for new projects</span>
             </div>
 
-            <h1 class="hero-title animate-in delay-2">
-                Biprasish<br />
-                <span class="text-gradient highlight-glow">Chakraborty</span>
+            <h1 class="hero-title" id="hero-title">
+                <span class="title-line">Biprasish</span>
+                <span class="title-line title-accent">Chakraborty</span>
             </h1>
 
-            <p class="subtitle animate-in delay-3">
-                Turning raw footage into <span class="highlight-text block-highlight">scroll-stopping</span>, high
-                retention cinematic
-                content that drives real <span class="text-white" style="font-weight: 700;">growth</span>. Built for the
-                modern creator economy.
+            <p class="hero-subtitle" id="hero-subtitle">
+                Video Editor crafting scroll-stopping content<br>
+                that turns viewers into a loyal audience.
             </p>
 
-            <div class="cta-group animate-in delay-4">
-                <a href="#showreel" class="btn-primary glowing-btn hover-target px-large">
-                    <i class="ph-fill ph-play-circle" style="font-size: 1.4rem;"></i> View Masterpieces
+            <div class="hero-actions" id="hero-actions">
+                <a href="#showreel" class="btn-primary" id="btn-showreel">
+                    <span>Watch Showreel</span>
+                    <i class="fa-solid fa-play"></i>
                 </a>
-                <a href="#contact" class="btn-secondary blur-btn hover-target">
-                    Collaborate Now <i class="ph-bold ph-arrow-right"></i>
-                </a>
+                <a href="#contact" class="btn-ghost" id="btn-contact-hero">Start a Project</a>
             </div>
 
-            <div class="hero-stats glass-stats animate-in delay-5">
-                <div class="stat-item">
-                    <h3 class="counter-up" data-target="2">0</h3><span>+</span>
-                    <p>Years Exp</p>
+            <div class="hero-stats" id="hero-stats">
+                <div class="stat">
+                    <span class="stat-num" data-target="2">0</span><span class="stat-suf">+</span>
+                    <span class="stat-label">Years Experience</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <h3 class="counter-up" data-target="150">0</h3><span>+</span>
-                    <p>Videos Edited</p>
+                <div class="stat-sep"></div>
+                <div class="stat">
+                    <span class="stat-num" data-target="150">0</span><span class="stat-suf">+</span>
+                    <span class="stat-label">Videos Edited</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <h3 class="counter-up text-gradient" data-target="10">0</h3><span class="text-gradient">M+</span>
-                    <p>Total Views</p>
+                <div class="stat-sep"></div>
+                <div class="stat">
+                    <span class="stat-num" data-target="10">0</span><span class="stat-suf">M+</span>
+                    <span class="stat-label">Total Views</span>
                 </div>
             </div>
         </div>
 
-        <div class="scroll-indicator animate-in delay-6">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-            <span class="scramble-text" data-text="DISCOVER">DISCOVER</span>
+        <div class="hero-scroll-hint">
+            <div class="scroll-line"></div>
+            <span>Scroll</span>
         </div>
-    </header>
+    </section>
 
-    <!-- Scrolling Marquee -->
-    <div class="marquee-section relative-z pt-elem">
-        <div class="marquee-container">
-            <div class="marquee">
-                <!-- Group 1 -->
-                <span class="marquee-item">PREMIERE PRO <i class="ph-fill ph-video-camera"></i></span>
-                <span class="marquee-item">AFTER EFFECTS <i class="ph-fill ph-sparkle"></i></span>
-                <span class="marquee-item">DAVINCI RESOLVE <i class="ph-fill ph-palette"></i></span>
-                <span class="marquee-item">COLOR GRADING <i class="ph-fill ph-aperture"></i></span>
-                <span class="marquee-item">MOTION GRAPHICS <i class="ph-fill ph-magic-wand"></i></span>
-                <span class="marquee-item">BLENDER 3D <i class="ph-fill ph-cube"></i></span>
-                <!-- Group 2 (Clone for infinite effect) -->
-                <span class="marquee-item">PREMIERE PRO <i class="ph-fill ph-video-camera"></i></span>
-                <span class="marquee-item">AFTER EFFECTS <i class="ph-fill ph-sparkle"></i></span>
-                <span class="marquee-item">DAVINCI RESOLVE <i class="ph-fill ph-palette"></i></span>
-                <span class="marquee-item">COLOR GRADING <i class="ph-fill ph-aperture"></i></span>
-                <span class="marquee-item">MOTION GRAPHICS <i class="ph-fill ph-magic-wand"></i></span>
-                <span class="marquee-item">BLENDER 3D <i class="ph-fill ph-cube"></i></span>
-            </div>
+    <!-- ========== TOOLS TICKER ========== -->
+    <div class="ticker-wrap">
+        <div class="ticker-track">
+            <span class="ticker-item">Premiere Pro</span>
+            <span class="ticker-sep">·</span>
+            <span class="ticker-item">After Effects</span>
+            <span class="ticker-sep">·</span>
+            <span class="ticker-item">DaVinci Resolve</span>
+            <span class="ticker-sep">·</span>
+            <span class="ticker-item">Color Grading</span>
+            <span class="ticker-sep">·</span>
+            <span class="ticker-item">Motion Graphics</span>
+            <span class="ticker-sep">·</span>
+            <span class="ticker-item">Blender 3D</span>
+            <span class="ticker-sep">·</span>
+            <!-- Clone for infinite -->
+            <span class="ticker-item">Premiere Pro</span>
+            <span class="ticker-sep">·</span>
+            <span class="ticker-item">After Effects</span>
+            <span class="ticker-sep">·</span>
+            <span class="ticker-item">DaVinci Resolve</span>
+            <span class="ticker-sep">·</span>
+            <span class="ticker-item">Color Grading</span>
+            <span class="ticker-sep">·</span>
+            <span class="ticker-item">Motion Graphics</span>
+            <span class="ticker-sep">·</span>
+            <span class="ticker-item">Blender 3D</span>
+            <span class="ticker-sep">·</span>
         </div>
     </div>
 
-    <!-- Showreel Section -->
-    <section id="showreel" class="section showreel-section relative-z">
-        <div class="container relative-z">
-            <div class="section-header center pt-elem">
-                <h6 class="section-kicker"><i class="ph-fill ph-film-strip"></i> THE CINEMATIC EXPERIENCE</h6>
-                <h2 class="section-title">Director's <span class="text-gradient">Cut</span></h2>
-                <p class="section-desc">A fast-paced motion design montage showcasing highly engaging cuts, YouTube
-                    edits, dynamic motion graphics, and premium grade visual storytelling.</p>
+    <!-- ========== SHOWREEL ========== -->
+    <section id="showreel" class="section">
+        <div class="container">
+            <div class="section-label reveal">Showreel</div>
+            <h2 class="section-title reveal">Director's Cut</h2>
+            <p class="section-desc reveal">A fast-paced montage showcasing dynamic cuts,<br>YouTube edits, and premium
+                visual storytelling.</p>
+
+            <div class="reel-frame reveal">
+                <video id="reel-video"
+                    src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772028882/Showreel_lfglw5.mp4" loop muted
+                    playsinline autoplay
+                    poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772028882/Showreel_lfglw5.jpg">
+                </video>
+                <div class="reel-controls">
+                    <button class="rctl-btn" id="reel-play-btn" aria-label="Play/Pause">
+                        <i class="fa-solid fa-pause" id="reel-play-icon"></i>
+                    </button>
+                    <button class="rctl-btn" id="reel-mute-btn" aria-label="Mute/Unmute">
+                        <i class="fa-solid fa-volume-xmark" id="reel-mute-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PORTFOLIO / WORK ========== -->
+    <section id="work" class="section">
+        <div class="container">
+            <div class="section-label reveal">Work</div>
+            <h2 class="section-title reveal">Selected Projects</h2>
+
+            <!-- Short Form -->
+            <div class="work-category reveal">
+                <h3 class="work-cat-title">Short Form — Vertical</h3>
+                <div class="work-grid work-grid-vertical">
+
+                    <div class="work-card">
+                        <div class="work-video-wrap vertical">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022520/trial_reel_v2_otjd3b.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022520/trial_reel_v2_otjd3b.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">Devin Style</p>
+                            <p class="work-tag">Short Form · Viral</p>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap vertical">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022502/Super_Profile_Rel_final_mqabuf.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022502/Super_Profile_Rel_final_mqabuf.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">SaaS Ad</p>
+                            <p class="work-tag">Ad Creative</p>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap vertical">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022524/Ad_3c_1_1f_lg0xnt.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022524/Ad_3c_1_1f_lg0xnt.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">Real Estate Ad</p>
+                            <p class="work-tag">Ad Creative</p>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap vertical">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022528/Punch-Cut_Ad_v01_cugeow.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022528/Punch-Cut_Ad_v01_cugeow.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">Credit Ad</p>
+                            <p class="work-tag">Ad Creative · Punch Cut</p>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap vertical">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022529/Xaviar_Video_F03_Prob3_xsbzvm.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022529/Xaviar_Video_F03_Prob3_xsbzvm.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">Fitness Promo</p>
+                            <p class="work-tag">Short Form</p>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap vertical">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022527/mark_Video_F3_imdlth.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022527/mark_Video_F3_imdlth.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">Real Estate</p>
+                            <p class="work-tag">Short Form</p>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap vertical">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022526/XAVIAR_Video01_iqohc2.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022526/XAVIAR_Video01_iqohc2.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">Xaviar Vol.1</p>
+                            <p class="work-tag">Short Form</p>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap vertical">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022521/Mark_Video_02f_wnrzyk.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022521/Mark_Video_02f_wnrzyk.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">Mark Series</p>
+                            <p class="work-tag">Short Form</p>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap vertical">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022512/mark_Video_1v2_knvpan.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022512/mark_Video_1v2_knvpan.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">Fashion Edit</p>
+                            <p class="work-tag">Short Form</p>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap vertical">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022505/Dubai_01_i5cbqj.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022505/Dubai_01_i5cbqj.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">Dubai Reel</p>
+                            <p class="work-tag">Real Estate · Tour</p>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="video-container glass-panel pt-elem spotlight-card hover-target"
-                style="max-width: 1200px; margin: 0 auto; padding: 0; border-radius: 24px;">
-                <div class="browser-bar">
-                    <div class="dots">
-                        <span class="red"></span><span class="yellow"></span><span class="green"></span>
+            <!-- Long Form -->
+            <div class="work-category reveal" style="margin-top: 5rem;">
+                <h3 class="work-cat-title">Long Form — Horizontal</h3>
+                <div class="work-grid work-grid-horizontal">
+
+                    <div class="work-card">
+                        <div class="work-video-wrap horizontal">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772027873/Confirmation_VSL_final_1_dspbn2.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772027873/Confirmation_VSL_final_1_dspbn2.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">VSL Showreel</p>
+                            <p class="work-tag">Long Form · Sales Video</p>
+                        </div>
                     </div>
-                    <div class="browser-title" style="font-size: 0.75rem;">creative_showreel_2026.mp4</div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap horizontal">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772028122/How_AI_Books_Appointments_For_My_Business_While_I_Sleep_-_Arturo_Johnson_1080p_h264_ginhcu.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772028122/How_AI_Books_Appointments_For_My_Business_While_I_Sleep_-_Arturo_Johnson_1080p_h264_ginhcu.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">AI Books Appointments</p>
+                            <p class="work-tag">Long Form · YouTube</p>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-video-wrap horizontal">
+                            <video class="work-video"
+                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772028610/After_Testing_100_AI_Tools_These_Are_the_Only_10_That_Matter_-_Arturo_Johnson_Business_1080p_h264_oaxwvh.mp4"
+                                playsinline
+                                poster="https://res.cloudinary.com/dnzkvroor/video/upload/v1772028610/After_Testing_100_AI_Tools_These_Are_the_Only_10_That_Matter_-_Arturo_Johnson_Business_1080p_h264_oaxwvh.jpg"></video>
+                            <div class="work-overlay">
+                                <button class="wv-play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+                                <div class="wv-progress-wrap">
+                                    <input type="range" class="wv-seek" value="0" min="0" max="100" step="0.1">
+                                    <div class="wv-time">0:00 / 0:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-meta">
+                            <p class="work-title">100 AI Tools Tested</p>
+                            <p class="work-tag">Long Form · YouTube</p>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="video-ratio"
-                    style="padding-bottom: 56.25%; background: #111; border-radius: 20px; overflow: hidden;">
-                    <video id="video-showreel"
-                        src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772028882/Showreel_lfglw5.mp4"
-                        class="w-full h-full object-cover" style="position: absolute; top: 0; left: 0;" loop muted
-                        playsinline autoplay></video>
-                    <div class="custom-video-controls glass-panel">
-                        <button id="showreel-play-btn" class="ctrl-btn hover-target"><i
-                                class="ph-bold ph-play"></i></button>
-                        <button id="showreel-mute-btn" class="ctrl-btn hover-target"><i
-                                class="ph-bold ph-speaker-slash"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICES ========== -->
+    <section id="services" class="section">
+        <div class="container">
+            <div class="section-label reveal">Services</div>
+            <h2 class="section-title reveal">How We Work Together</h2>
+            <p class="section-desc reveal">Choose the collaboration model that fits your goals.</p>
+
+            <div class="services-grid reveal">
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-regular fa-scissors"></i></div>
+                    <h3 class="service-name">Per Project</h3>
+                    <p class="service-type">Single Asset Delivery</p>
+                    <ul class="service-features">
+                        <li>1-on-1 dedicated consultation</li>
+                        <li>Premium quality editing</li>
+                        <li>Motion graphics & VFX styling</li>
+                        <li>Unlimited revisions until perfect</li>
+                    </ul>
+                    <a href="#contact" class="service-cta" id="btn-perproject">Book a Project</a>
+                </div>
+
+                <div class="service-card service-featured">
+                    <div class="service-badge">Most Popular</div>
+                    <div class="service-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                    <h3 class="service-name">Monthly Retainer</h3>
+                    <p class="service-type">Consistent Growth</p>
+                    <ul class="service-features">
+                        <li>High-volume monthly output</li>
+                        <li>Priority queue & fast delivery</li>
+                        <li>Dedicated Slack / Discord channel</li>
+                        <li>Analytics & strategy consulting</li>
+                        <li>Discounted per-video flat rate</li>
+                    </ul>
+                    <a href="#contact" class="service-cta service-cta-primary" id="btn-retainer">Start Retainer</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-regular fa-handshake"></i></div>
+                    <h3 class="service-name">Long-Term Partner</h3>
+                    <p class="service-type">Equity / Revenue Share</p>
+                    <ul class="service-features">
+                        <li>Fully integrated team member</li>
+                        <li>Complete visual direction & strategy</li>
+                        <li>Backend operational setup</li>
+                        <li>Maximum priority on all assets</li>
+                        <li>Exclusive 6–12 month contracts</li>
+                    </ul>
+                    <a href="#contact" class="service-cta" id="btn-partner">Partner Up</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    <section id="testimonials" class="section section-alt">
+        <div class="container">
+            <div class="section-label reveal">Testimonials</div>
+            <h2 class="section-title reveal">What Clients Say</h2>
+        </div>
+
+        <div class="testi-ticker-wrap reveal">
+            <div class="testi-ticker-track">
+                <!-- Set A -->
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p>"Biprasish fundamentally changed how our brand creates content. His understanding of retention
+                        mechanics is absolutely unmatched."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">A</div>
+                        <div>
+                            <strong>Alex Mercer</strong>
+                            <span>Founder, Velocity Media</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p>"Turnaround time is insane, but quality never drops. He took my raw talking-head videos and
+                        turned them into cinematic experiences."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">S</div>
+                        <div>
+                            <strong>Sarah Jenkins</strong>
+                            <span>YouTube Creator · 1.2M Subscribers</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p>"The motion graphics and typography he adds make the videos feel so premium. He knows exactly
+                        when to cut and when to breathe."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">M</div>
+                        <div>
+                            <strong>Marcus Thorne</strong>
+                            <span>Tech Reviewer</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p>"I was skeptical about hiring out my editing, but Biprasish brought a completely new perspective
+                        that doubled our average view duration."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">E</div>
+                        <div>
+                            <strong>Elena Rostova</strong>
+                            <span>Marketing Director</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Set B (clone for infinite scroll) -->
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p>"Biprasish fundamentally changed how our brand creates content. His understanding of retention
+                        mechanics is absolutely unmatched."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">A</div>
+                        <div>
+                            <strong>Alex Mercer</strong>
+                            <span>Founder, Velocity Media</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p>"Turnaround time is insane, but quality never drops. He took my raw talking-head videos and
+                        turned them into cinematic experiences."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">S</div>
+                        <div>
+                            <strong>Sarah Jenkins</strong>
+                            <span>YouTube Creator · 1.2M Subscribers</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p>"The motion graphics and typography he adds make the videos feel so premium. He knows exactly
+                        when to cut and when to breathe."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">M</div>
+                        <div>
+                            <strong>Marcus Thorne</strong>
+                            <span>Tech Reviewer</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p>"I was skeptical about hiring out my editing, but Biprasish brought a completely new perspective
+                        that doubled our average view duration."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">E</div>
+                        <div>
+                            <strong>Elena Rostova</strong>
+                            <span>Marketing Director</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="section portfolio-section relative-z">
+    <!-- ========== ABOUT ========== -->
+    <section id="about" class="section">
         <div class="container">
-            <div class="section-header pt-elem">
-                <h6 class="section-kicker"><i class="ph-fill ph-folder-star"></i> RECENT WORKS</h6>
-                <h2 class="section-title">Creative <span class="text-gradient">Arsenal</span></h2>
-                <p class="section-desc">Specialized editing formats engineered to dominate platform algorithms and
-                    captivate audiences globally.</p>
-            </div>
-            <div class="portfolio-category pt-elem">
-                <h3 class="category-title"><i class="ph-fill ph-device-mobile"></i> Vertical Virality (Short Form)</h3>
-                <div class="vertical-grid">
-                    <!-- Vertical Item 1 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 177.77%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022520/trial_reel_v2_otjd3b.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;" poster="" playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
+            <div class="about-grid">
+                <div class="about-image-col reveal">
+                    <div class="about-img-frame">
+                        <img src="images/profile.jpg" alt="Biprasish Chakraborty — Professional Video Editor">
+                        <div class="about-img-badge">
+                            <span class="badge-num">2+</span>
+                            <span class="badge-txt">Years of<br>Excellence</span>
                         </div>
-                        <h3>Devin style</h3>
-                    </div>
-                    <!-- Vertical Item 2 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 177.77%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022502/Super_Profile_Rel_final_mqabuf.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;" poster="" playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>Saas Ad</h3>
-                    </div>
-                    <!-- Vertical Item 3 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 177.77%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022524/Ad_3c_1_1f_lg0xnt.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/400x711/?finance,reels" playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>Real Estate Ad</h3>
-                    </div>
-                    <!-- Vertical Item 4 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 177.77%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022528/Punch-Cut_Ad_v01_cugeow.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/400x711/?tech,review" playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>Credit Ad</h3>
-                    </div>
-                    <!-- Vertical Item 5 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 177.77%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022529/Xaviar_Video_F03_Prob3_xsbzvm.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/400x711/?fitness,motivation"
-                                playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>Real Estate Ad</h3>
-                    </div>
-                    <!-- Vertical Item 6 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 177.77%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022527/mark_Video_F3_imdlth.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/400x711/?food,recipe" playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>Real Estate Ad</h3>
-                    </div>
-                    <!-- Vertical Item 7 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 177.77%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022526/XAVIAR_Video01_iqohc2.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/400x711/?vlog,travel" playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>Real Estate Ad</h3>
-                    </div>
-                    <!-- Vertical Item 8 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 177.77%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022521/Mark_Video_02f_wnrzyk.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/400x711/?comedy,skit" playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>Real Estate Ad</h3>
-                    </div>
-                    <!-- Vertical Item 9 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 177.77%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022512/mark_Video_1v2_knvpan.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/400x711/?fashion,style" playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>Real Estate Ad</h3>
-                    </div>
-                    <!-- Vertical Item 10 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 177.77%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772022505/Dubai_01_i5cbqj.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/400x711/?realestate,tour"
-                                playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>Real Estate Ad</h3>
                     </div>
                 </div>
-            </div>
 
-            <div class="portfolio-category pt-elem">
-                <h3 class="category-title"><i class="ph-fill ph-monitor-play"></i> Cinematic Narratives (Long Form)</h3>
-                <div class="horizontal-grid">
-                    <!-- Horizontal Item 1 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 56.25%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772027873/Confirmation_VSL_final_1_dspbn2.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/800x450/?documentary,film"
-                                playsinline></video>
-
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>VSL Showreel</h3>
-                        <p>Clean motion graphics and smooth transitions.</p>
+                <div class="about-text-col reveal">
+                    <div class="section-label">About</div>
+                    <h2 class="section-title">The Editor<br>Behind the Work</h2>
+                    <div class="about-bio">
+                        <p>I'm <strong>Biprasish Chakraborty</strong>, a video editor from Assam, India — building
+                            global digital empires for creators and brands.</p>
+                        <p>My edits have generated over <strong>10 million organic views</strong>. I don't just splice
+                            clips — I craft psychological hooks that arrest attention from the very first frame and keep
+                            viewers watching to the end.</p>
+                        <p>Armed with analytical thinking and an obsessive creative eye, I fuse structure with
+                            imagination to manufacture premium, highly addictive content that scales.</p>
                     </div>
-                    <!-- Horizontal Item 2 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 56.25%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772028122/How_AI_Books_Appointments_For_My_Business_While_I_Sleep_-_Arturo_Johnson_1080p_h264_ginhcu.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/800x450/?youtube,setup" playsinline></video>
 
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
+                    <div class="about-pillars">
+                        <div class="pillar">
+                            <i class="fa-regular fa-chart-line"></i>
+                            <span>Data-Driven Edits</span>
                         </div>
-                        <h3>AI Books Appointments</h3>
-                        <p>How AI Books Appointments For My Business While I Sleep.</p>
+                        <div class="pillar">
+                            <i class="fa-regular fa-bolt"></i>
+                            <span>Fast Turnaround</span>
+                        </div>
+                        <div class="pillar">
+                            <i class="fa-regular fa-magnifying-glass"></i>
+                            <span>Micro-Detail Focus</span>
+                        </div>
+                        <div class="pillar">
+                            <i class="fa-regular fa-handshake"></i>
+                            <span>Unbreakable Trust</span>
+                        </div>
                     </div>
-                    <!-- Horizontal Item 3 -->
-                    <div class="portfolio-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="card-image-placeholder custom-video-wrapper relative overflow-hidden rounded-lg"
-                            style="padding-bottom: 56.25%; height: 0; background: #111;">
-                            <video
-                                src="https://res.cloudinary.com/dnzkvroor/video/upload/v1772028610/After_Testing_100_AI_Tools_These_Are_the_Only_10_That_Matter_-_Arturo_Johnson_Business_1080p_h264_oaxwvh.mp4"
-                                class="custom-video w-full h-full object-cover"
-                                style="position: absolute; top: 0; left: 0;"
-                                poster="https://source.unsplash.com/random/800x450/?esports,gaming" playsinline></video>
 
-                            <!-- Custom Controls Overlay -->
-                            <div class="custom-player-controls glass-panel">
-                                <button class="play-pause-btn hover-target" aria-label="Play">
-                                    <i class="ph-fill ph-play"></i>
-                                </button>
-                                <input type="range" class="seek-bar hover-target" value="0" min="0" max="100"
-                                    step="0.1">
-                                <div class="time-display">0:00 / 0:00</div>
-                            </div>
-                        </div>
-                        <h3>AI Tools</h3>
-                        <p>After Testing 100 AI Tools, These Are the Only 10 That Matter.</p>
-                    </div>
+                    <a href="#contact" class="btn-primary" id="btn-about-contact">Work With Me</a>
                 </div>
             </div>
         </div>
-        <!-- Global Network Section -->
-        <section id="network" class="section network-section relative-z">
-            <div class="container relative-z">
-                <div class="section-header center pt-elem">
-                    <h6 class="section-kicker"><i class="ph-fill ph-users-three"></i> THE ALLIANCE</h6>
-                    <h2 class="section-title">Global <span class="text-gradient">Network</span></h2>
-                    <p class="section-desc">Collaborating with visionaries, elite brands, and algorithm dominators
-                        around the globe.</p>
-                </div>
+    </section>
 
-                <div class="orbit-container pt-elem">
-                    <!-- Orbit Rings (Background) -->
-                    <div class="orbit-ring" style="--size: 300px;"></div>
-                    <div class="orbit-ring" style="--size: 550px;"></div>
-                    <div class="orbit-ring" style="--size: 800px;"></div>
+    <!-- ========== CONTACT ========== -->
+    <section id="contact" class="section section-alt">
+        <div class="container">
+            <div class="section-label reveal">Contact</div>
+            <h2 class="section-title reveal">Let's Create Something<br>Remarkable</h2>
 
-                    <!-- Center Photo -->
-                    <div class="orbit-center glass-panel spotlight-card hover-target">
-                        <img src="images/profile.jpg" alt="Biprasish">
-                        <div class="center-glow"></div>
-                    </div>
+            <div class="contact-grid reveal">
+                <div class="contact-info-col">
+                    <p class="contact-intro">Have raw footage sitting idle? Ready to scale your brand with premium video
+                        content? Reach out — I'd love to hear about your project.</p>
 
-                    <!-- Ring 1 (Inner) -->
-                    <div class="orbit-nodes-wrapper orbit-spin-1">
-                        <!-- Client Node -->
-                        <div class="orbit-node" style="--r: 150px; --a: 0deg;">
-                            <a href="#" target="_blank" class="node-image hover-target" style="display: block;">
-                                <img src="assets/channels4_profile.jpg" alt="Client">
-                            </a>
-                        </div>
-                        <!-- Client Node -->
-                        <div class="orbit-node" style="--r: 150px; --a: 180deg;">
-                            <a href="#" target="_blank" class="node-image hover-target" style="display: block;">
-                                <img src="assets/channels4_profile_1.jpg" alt="Client">
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Ring 2 (Middle) -->
-                    <div class="orbit-nodes-wrapper orbit-spin-2">
-                        <div class="orbit-node" style="--r: 275px; --a: 45deg;">
-                            <a href="#" target="_blank" class="node-image hover-target" style="display: block;">
-                                <img src="assets/channels4_profile_3.jpg" alt="Client">
-                            </a>
-                        </div>
-                        <div class="orbit-node" style="--r: 275px; --a: 165deg;">
-                            <a href="#" target="_blank" class="node-image hover-target" style="display: block;">
-                                <img src="assets/channels4_profile_4.jpg" alt="Client">
-                            </a>
-                        </div>
-                        <div class="orbit-node" style="--r: 275px; --a: 285deg;">
-                            <a href="#" target="_blank" class="node-image hover-target" style="display: block;">
-                                <img src="assets/unnamed.jpg" alt="Client">
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Ring 3 (Outer) -->
-                    <div class="orbit-nodes-wrapper orbit-spin-3">
-                        <div class="orbit-node" style="--r: 400px; --a: 90deg;">
-                            <a href="#" target="_blank" class="node-image hover-target" style="display: block;">
-                                <img src="assets/channels4_profile_6.jpg" alt="Client">
-                            </a>
-                        </div>
-                        <div class="orbit-node" style="--r: 400px; --a: 210deg;">
-                            <a href="#" target="_blank" class="node-image hover-target" style="display: block;">
-                                <img src="assets/channels4_profile_7.jpg" alt="Client">
-                            </a>
-                        </div>
-                        <div class="orbit-node" style="--r: 400px; --a: 330deg;">
-                            <a href="#" target="_blank" class="node-image hover-target" style="display: block;">
-                                <img src="https://source.unsplash.com/random/100x100/?portrait,artist" alt="Client">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-        <section id="services" class="section services-section relative-z">
-            <div class="container">
-                <div class="section-header center pt-elem">
-                    <h6 class="section-kicker"><i class="ph-fill ph-tag"></i> INVESTMENT PATHWAYS</h6>
-                    <h2 class="section-title">Scalable <span class="text-gradient">Solutions</span></h2>
-                    <p class="section-desc">Tiered editing architectures designed to scale your personal brand or
-                        enterprise
-                        to the absolute peak of attention.</p>
-                </div>
-
-                <!-- Packages -->
-                <div class="packages-grid pt-elem">
-                    <!-- Starter: Per Project -->
-                    <div class="package-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="package-header">
-                            <div class="tier-icon"><i class="ph-bold ph-scissors"></i></div>
-                            <h3>Per Project</h3>
-                            <p class="package-type">Single Asset Delivery</p>
-                        </div>
-                        <ul class="package-features">
-                            <li><i class="ph-bold ph-check-circle text-tertiary"></i> Dedicated 1-on-1 consultation</li>
-                            <li><i class="ph-bold ph-check-circle text-tertiary"></i> Premium quality editing</li>
-                            <li><i class="ph-bold ph-check-circle text-tertiary"></i> Motion graphics & VFX styling</li>
-                            <li><i class="ph-bold ph-check-circle text-tertiary"></i> Unlimited revisions until perfect
-                            </li>
-                        </ul>
-                        <a href="#contact" class="btn-outline full-width hover-target">Book A Project</a>
-                    </div>
-
-                    <!-- Growth: Monthly Retainer (Featured) -->
-                    <div class="package-card glass-panel featured spotlight-card hover-target">
-                        <div class="featured-glow"></div>
-                        <div class="featured-badge">Most Popular</div>
-                        <div class="package-header">
-                            <div class="tier-icon" style="color: var(--accent-secondary);"><i
-                                    class="ph-fill ph-calendar-check"></i></div>
-                            <h3>Monthly Retainer</h3>
-                            <p class="package-type">Consistent Growth Matrix</p>
-                        </div>
-                        <ul class="package-features">
-                            <li><i class="ph-bold ph-check-circle text-secondary"></i> High-volume monthly output</li>
-                            <li><i class="ph-bold ph-check-circle text-secondary"></i> Priority queue and fast delivery
-                            </li>
-                            <li><i class="ph-bold ph-check-circle text-secondary"></i> Dedicated Slack / Discord channel
-                            </li>
-                            <li><i class="ph-bold ph-check-circle text-secondary"></i> Deep dive analytics consulting
-                            </li>
-                            <li><i class="ph-bold ph-check-circle text-secondary"></i> Discounted per-video flat rate
-                            </li>
-                        </ul>
-                        <a href="#contact" class="btn-primary glowing-btn full-width hover-target">Start Retainer</a>
-                    </div>
-
-                    <!-- Premium: Long Term -->
-                    <div class="package-card glass-panel spotlight-card hover-target">
-                        <div class="card-glow"></div>
-                        <div class="package-header">
-                            <div class="tier-icon" style="color: var(--accent-primary);"><i
-                                    class="ph-fill ph-handshake"></i>
-                            </div>
-                            <h3>Long Term Partner</h3>
-                            <p class="package-type">Equity / Revenue Share</p>
-                        </div>
-                        <ul class="package-features">
-                            <li><i class="ph-bold ph-check-circle text-primary"></i> Fully integrated team member</li>
-                            <li><i class="ph-bold ph-check-circle text-primary"></i> Complete visual direction &
-                                strategy</li>
-                            <li><i class="ph-bold ph-check-circle text-primary"></i> Backend operational setup</li>
-                            <li><i class="ph-bold ph-check-circle text-primary"></i> Maximum priority on all assets</li>
-                            <li><i class="ph-bold ph-check-circle text-primary"></i> Exclusive 6-12 month contracts</li>
-                        </ul>
-                        <a href="#contact" class="btn-outline full-width hover-target">Partner Up</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Marquee Section -->
-        <section class="section testimonials-section relative-z pt-elem">
-            <div class="container">
-                <div class="section-header center pt-elem">
-                    <h6 class="section-kicker"><i class="ph-fill ph-quotes"></i> REPUTATION</h6>
-                    <h2 class="section-title">Client <span class="text-gradient">Feedback</span></h2>
-                    <p class="section-desc">What visionaries and top creators say about the editing process and final
-                        product.</p>
-                </div>
-            </div>
-
-            <!-- CSS Marquee Track -->
-            <div class="marquee-track pt-elem">
-                <div class="marquee-content testimonials-marquee">
-                    <!-- Testimonial 1 -->
-                    <div class="testimonial-card glass-panel hover-target">
-                        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i></div>
-                        <p class="testimonial-text">"Biprasish fundamentally changed how our brand creates content. His
-                            understanding of retention mechanics is absolutely unmatched."</p>
-                        <div class="testimonial-author">
-                            <img src="https://source.unsplash.com/random/100x100/?portrait,ceo" alt="Client">
+                    <div class="contact-links">
+                        <a href="mailto:imcreativeeditsmov@gmail.com" class="contact-link" id="contact-email-link">
+                            <div class="contact-link-icon"><i class="fa-regular fa-envelope"></i></div>
                             <div>
-                                <h4>Alex Mercer</h4>
-                                <small>Founder, Velocity Media</small>
+                                <span class="contact-link-label">Email</span>
+                                <span class="contact-link-val">imcreativeeditsmov@gmail.com</span>
                             </div>
-                        </div>
-                    </div>
-                    <!-- Testimonial 2 -->
-                    <div class="testimonial-card glass-panel hover-target">
-                        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i></div>
-                        <p class="testimonial-text">"Turnaround time is insane, but the quality never drops. He took my
-                            raw talking head videos and turned them into cinematic experiences."</p>
-                        <div class="testimonial-author">
-                            <img src="https://source.unsplash.com/random/100x100/?portrait,founder" alt="Client">
+                        </a>
+                        <a href="https://www.instagram.com/creativeedits.mov" target="_blank" class="contact-link"
+                            id="contact-ig-link">
+                            <div class="contact-link-icon"><i class="fa-brands fa-instagram"></i></div>
                             <div>
-                                <h4>Sarah Jenkins</h4>
-                                <small>Youtube Creator (1.2M Subs)</small>
+                                <span class="contact-link-label">Instagram</span>
+                                <span class="contact-link-val">@creativeedits.mov</span>
                             </div>
-                        </div>
-                    </div>
-                    <!-- Testimonial 3 -->
-                    <div class="testimonial-card glass-panel hover-target">
-                        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i></div>
-                        <p class="testimonial-text">"The motion graphics and typography he adds make the videos feel so
-                            premium. He knows exactly when to cut and when to breathe."</p>
-                        <div class="testimonial-author">
-                            <img src="https://source.unsplash.com/random/100x100/?portrait,tech" alt="Client">
+                        </a>
+                        <div class="contact-link">
+                            <div class="contact-link-icon"><i class="fa-regular fa-location-dot"></i></div>
                             <div>
-                                <h4>Marcus Thorne</h4>
-                                <small>Tech Reviewer</small>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Testimonial 4 -->
-                    <div class="testimonial-card glass-panel hover-target">
-                        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i></div>
-                        <p class="testimonial-text">"I was skeptical about hiring out my editing, but Biprasish brought
-                            a completely new perspective that doubled our average view duration."</p>
-                        <div class="testimonial-author">
-                            <img src="https://source.unsplash.com/random/100x100/?portrait,marketing" alt="Client">
-                            <div>
-                                <h4>Elena Rostova</h4>
-                                <small>Marketing Director</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Duplicated for infinite scroll -->
-                    <div class="testimonial-card glass-panel hover-target">
-                        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i></div>
-                        <p class="testimonial-text">"Biprasish fundamentally changed how our brand creates content. His
-                            understanding of retention mechanics is absolutely unmatched."</p>
-                        <div class="testimonial-author">
-                            <img src="https://source.unsplash.com/random/100x100/?portrait,ceo" alt="Client">
-                            <div>
-                                <h4>Alex Mercer</h4>
-                                <small>Founder, Velocity Media</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card glass-panel hover-target">
-                        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i></div>
-                        <p class="testimonial-text">"Turnaround time is insane, but the quality never drops. He took my
-                            raw talking head videos and turned them into cinematic experiences."</p>
-                        <div class="testimonial-author">
-                            <img src="https://source.unsplash.com/random/100x100/?portrait,founder" alt="Client">
-                            <div>
-                                <h4>Sarah Jenkins</h4>
-                                <small>Youtube Creator (1.2M Subs)</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card glass-panel hover-target">
-                        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i></div>
-                        <p class="testimonial-text">"The motion graphics and typography he adds make the videos feel so
-                            premium. He knows exactly when to cut and when to breathe."</p>
-                        <div class="testimonial-author">
-                            <img src="https://source.unsplash.com/random/100x100/?portrait,tech" alt="Client">
-                            <div>
-                                <h4>Marcus Thorne</h4>
-                                <small>Tech Reviewer</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card glass-panel hover-target">
-                        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
-                                class="ph-fill ph-star"></i></div>
-                        <p class="testimonial-text">"I was skeptical about hiring out my editing, but Biprasish brought
-                            a completely new perspective that doubled our average view duration."</p>
-                        <div class="testimonial-author">
-                            <img src="https://source.unsplash.com/random/100x100/?portrait,marketing" alt="Client">
-                            <div>
-                                <h4>Elena Rostova</h4>
-                                <small>Marketing Director</small>
+                                <span class="contact-link-label">Location</span>
+                                <span class="contact-link-val">Assam, India · Remote Worldwide</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- About Section -->
-        <section id="about" class="section about-section relative-z">
-            <div class="container about-grid pt-elem">
-                <div class="about-image">
-                    <div class="image-wrapper glass-panel spotlight-card hover-target">
-                        <div class="profile-glow"></div>
-                        <div class="scanline"></div>
-                        <img src="images/profile.jpg" alt="Biprasish Chakraborty - Professional Video Editor"
-                            class="profile-img">
-                        <div class="experience-badge parallax-elem" data-speed="0.15">
-                            <div class="badge-bg"></div>
-                            <span>2+</span>
-                            <small>Years Shaping Reality</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="about-content">
-                    <h6 class="section-kicker"><i class="ph-fill ph-brain"></i> THE ARCHITECT</h6>
-                    <h2 class="section-title">Mind Behind The <span class="text-gradient">Cuts</span></h2>
-                    <div class="bio-text">
-                        <p>I’m <strong class="text-gradient">Biprasish Chakraborty</strong>, an elite video editor
-                            operating
-                            out of Assam, India, building global digital empires for creators.</p>
-                        <p>I’ve engineered content that has amassed over <strong>10 million organic views</strong>. I
-                            don't
-                            just splice clips; I architect psychological loops that arrest attention, manipulate time
-                            perception, and force engagement from the very first frame.</p>
-                        <p>Armed with a background in Zoology and a relentless creative obsession, I fuse analytical
-                            structure with chaotic, unbridled visual imagination. <strong class="text-light">My sole
-                                directive: Manufacture highly addictive, premium content that scales.</strong></p>
-                    </div>
-
-                    <div class="why-list-grid">
-                        <div class="why-item hover-target">
-                            <div class="icon-bx"><i class="ph-fill ph-chart-line-up"></i></div> Data-Driven Edits
-                        </div>
-                        <div class="why-item hover-target">
-                            <div class="icon-bx"><i class="ph-fill ph-clock-countdown"></i></div> Hyperspeed Turnaround
-                        </div>
-                        <div class="why-item hover-target">
-                            <div class="icon-bx"><i class="ph-fill ph-magnifying-glass"></i></div> Micro-Detail Focus
-                        </div>
-                        <div class="why-item hover-target">
-                            <div class="icon-bx"><i class="ph-fill ph-handshake"></i></div> Unbreakable Trust
-                        </div>
-                    </div>
-
-                    <a href="#contact" class="btn-primary-sm glowing-btn mt-4 inline-block hover-target">Enter The
-                        Vault</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section contact-section relative-z">
-            <div class="container pt-elem">
-                <div class="contact-wrapper glass-panel spotlight-card hover-target">
-                    <div class="card-glow"></div>
-                    <div class="contact-info">
-                        <h6 class="section-kicker"><i class="ph-fill ph-broadcast"></i> TRANSMIT SIGNAL</h6>
-                        <h2 class="section-title">Initiate <br><span class="text-gradient">Protocol</span></h2>
-                        <p>Sitting on raw footage with zero impact? Let’s transmute it into highly weaponized,
-                            scroll-stopping digital assets.</p>
-
-                        <div class="contact-details">
-                            <a href="mailto:imcreativeeditsmov@gmail.com" class="contact-item hover-target">
-                                <div class="icon-circle"><i class="ph-fill ph-envelope-simple"></i></div>
-                                <div>
-                                    <small>Direct Neural Link</small>
-                                    <span>imcreativeeditsmov@gmail.com</span>
-                                </div>
-                            </a>
-                            <a href="https://www.instagram.com/creativeedits.mov" target="_blank"
-                                class="contact-item hover-target">
-                                <div class="icon-circle instagram"><i class="ph-fill ph-instagram-logo"></i></div>
-                                <div>
-                                    <small>Instagram Frequency</small>
-                                    <span>@creativeedits.mov</span>
-                                </div>
-                            </a>
-                            <div class="contact-item">
-                                <div class="icon-circle location"><i class="ph-fill ph-globe-hemisphere-east"></i></div>
-                                <div>
-                                    <small>Physical Coordinates</small>
-                                    <span>Assam, India (Global Remote)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <form class="contact-form" id="contactForm" action="https://formspree.io/f/meelvolq" method="POST">
-                        <div class="form-row">
-                            <div class="form-group flex-1">
-                                <label>Designation (Name)</label>
-                                <input type="text" name="name" class="input-modern hover-target" placeholder="John Doe"
-                                    required>
-                            </div>
-                            <div class="form-group flex-1">
-                                <label>Comms Channel (Email)</label>
-                                <input type="email" name="email" class="input-modern hover-target"
-                                    placeholder="john@company.com" required>
-                            </div>
+                <form class="contact-form" id="contactForm" action="https://formspree.io/f/meelvolq" method="POST">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contact-name">Name</label>
+                            <input type="text" id="contact-name" name="name" placeholder="Your full name" required>
                         </div>
                         <div class="form-group">
-                            <label>Protocol Required</label>
-                            <select name="service" class="input-modern hover-target">
-                                <option value="YouTube Dominance (Long Form)">YouTube Dominance (Long Form)</option>
-                                <option value="Algorithmic Hijack (Shorts/Reels)">Algorithmic Hijack (Shorts/Reels)
-                                </option>
-                                <option value="Cinematic Brand Warfare (Commercial)">Cinematic Brand Warfare
-                                    (Commercial)</option>
-                                <option value="Visual Overload (Motion Graphics)">Visual Overload (Motion Graphics)
-                                </option>
-                            </select>
+                            <label for="contact-email">Email</label>
+                            <input type="email" id="contact-email" name="email" placeholder="your@email.com" required>
                         </div>
-                        <div class="form-group">
-                            <label>Mission Briefing (Project Details)</label>
-                            <textarea name="message" class="input-modern hover-target"
-                                placeholder="Detail your exact vision, the assets you possess, and the numerical metrics you demand..."
-                                rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary glowing-btn full-width submit-btn hover-target">
-                            <span class="btn-txt">Transmit Directive</span> <i class="ph-bold ph-paper-plane-right"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="relative-z">
-            <div class="container footer-content">
-                <div class="footer-left">
-                    <a href="#" class="logo-text hover-target">creative<span class="highlight">edits</span>.mov</a>
-                    <p>&copy; 2026 Biprasish Chakraborty. Engineering the future visual web.</p>
-                </div>
-                <div class="social-links">
-                    <a href="https://www.instagram.com/creativeedits.mov" target="_blank" class="hover-target"><i
-                            class="ph-fill ph-instagram-logo"></i></a>
-                    <a href="https://x.com/creativeeditss" target="_blank" class="hover-target"><i
-                            class="ph-fill ph-twitter-logo"></i></a>
-                    <a href="https://www.linkedin.com/in/imcreativeedits-mov-51a56a388" target="_blank"
-                        class="hover-target"><i class="ph-fill ph-linkedin-logo"></i></a>
-                </div>
-            </div>
-        </footer>
-        <!-- AI Assistant Widget -->
-        <div id="ai-widget-container" class="relative-z">
-            <!-- Chat Window -->
-            <div id="ai-chat-window" class="glass-panel hidden">
-                <div class="ai-header">
-                    <div class="ai-avatar"><i class="ph-fill ph-robot"></i></div>
-                    <div class="ai-title-wrap">
-                        <h4>Biprasish AI</h4>
-                        <span class="online-status"><span class="pulse-dot-small"></span> Active</span>
                     </div>
-                    <button id="close-chat-btn" class="hover-target"><i class="ph-bold ph-x"></i></button>
-                </div>
-
-                <div class="ai-body" id="ai-chat-body" data-lenis-prevent>
-                    <div class="ai-message system">
-                        <div class="msg-bubble">Initializing Neural Link with Groq AI...</div>
+                    <div class="form-group">
+                        <label for="contact-service">Service</label>
+                        <select id="contact-service" name="service">
+                            <option value="YouTube Long Form">YouTube Long Form</option>
+                            <option value="Shorts / Reels">Shorts / Reels</option>
+                            <option value="Commercial / Ad">Commercial / Ad</option>
+                            <option value="Motion Graphics">Motion Graphics</option>
+                        </select>
                     </div>
-                </div>
-
-                <div class="ai-input-area">
-                    <input type="text" id="ai-user-input" placeholder="Ask me about Biprasish..."
-                        class="hover-target" />
-                    <button id="ai-send-btn" class="hover-target"><i class="ph-bold ph-paper-plane-right"></i></button>
-                </div>
+                    <div class="form-group">
+                        <label for="contact-message">Message</label>
+                        <textarea id="contact-message" name="message" rows="5"
+                            placeholder="Tell me about your project, goals, and timeline..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full" id="btn-submit">
+                        <span>Send Message</span>
+                        <i class="fa-regular fa-paper-plane"></i>
+                    </button>
+                    <p class="form-note" id="form-status"></p>
+                </form>
             </div>
-
-            <!-- Floating Action Button -->
-            <button id="ai-fab" class="glowing-btn hover-target"
-                style="padding: 0; overflow: hidden; border: 2px solid var(--accent-tertiary);">
-                <img src="assets/software-agent.png" alt="AI Assistant"
-                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-            </button>
         </div>
+    </section>
 
-        <script src="script.js" type="module"></script>
+    <!-- ========== FOOTER ========== -->
+    <footer id="footer">
+        <div class="container footer-inner">
+            <div class="footer-left">
+                <a href="#hero" class="footer-logo">Biprasish Chakraborty</a>
+                <p>© 2026 Biprasish Chakraborty. All rights reserved.</p>
+            </div>
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/creativeedits.mov" target="_blank" aria-label="Instagram"
+                    id="footer-ig">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://x.com/creativeeditss" target="_blank" aria-label="X / Twitter" id="footer-x">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/imcreativeedits-mov-51a56a388" target="_blank"
+                    aria-label="LinkedIn" id="footer-li">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== AI ASSISTANT ========== -->
+    <div id="ai-widget">
+        <!-- FAB -->
+        <button id="ai-fab" aria-label="Open AI Assistant">
+            <i class="fa-solid fa-sparkles"></i>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="ai-chat" class="hidden">
+            <div class="ai-chat-header">
+                <div class="ai-chat-title">
+                    <span class="ai-status-dot"></span>
+                    <span>Biprasish AI</span>
+                </div>
+                <button id="ai-close-btn" aria-label="Close chat"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="ai-chat-body" id="ai-chat-body"></div>
+            <div class="ai-chat-input">
+                <input type="text" id="ai-input" placeholder="Ask me anything…">
+                <button id="ai-send-btn" aria-label="Send"><i class="fa-solid fa-arrow-up"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>

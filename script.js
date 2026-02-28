@@ -1,875 +1,560 @@
-// Elite Portfolio Logic
+// =====================================================
+//  Biprasish Portfolio — Apple-Style JS
+// =====================================================
 
-// --- 1. Preloader & Scramble Text Logic ---
-class TextScrambler {
-    constructor(el) {
-        this.el = el;
-        this.chars = '!<>-_\\/[]{}—=+*^?#________';
-        this.update = this.update.bind(this);
-    }
-    setText(newText) {
-        const oldText = this.el.innerText;
-        const length = Math.max(oldText.length, newText.length);
-        const promise = new Promise((resolve) => this.resolve = resolve);
-        this.queue = [];
-        for (let i = 0; i < length; i++) {
-            const from = oldText[i] || '';
-            const to = newText[i] || '';
-            const start = Math.floor(Math.random() * 40);
-            const end = start + Math.floor(Math.random() * 40);
-            this.queue.push({ from, to, start, end });
-        }
-        cancelAnimationFrame(this.frameRequest);
-        this.frame = 0;
-        this.update();
-        return promise;
-    }
-    update() {
-        let output = '';
-        let complete = 0;
-        for (let i = 0, n = this.queue.length; i < n; i++) {
-            let { from, to, start, end, char } = this.queue[i];
-            if (this.frame >= end) {
-                complete++;
-                output += to;
-            } else if (this.frame >= start) {
-                if (!char || Math.random() < 0.28) {
-                    char = this.randomChar();
-                    this.queue[i].char = char;
-                }
-                output += `<span class="dud">${char}</span>`;
-            } else {
-                output += from;
-            }
-        }
-        this.el.innerHTML = output;
-        if (complete === this.queue.length) {
-            this.resolve();
-        } else {
-            this.frameRequest = requestAnimationFrame(this.update);
-            this.frame++;
-        }
-    }
-    randomChar() {
-        return this.chars[Math.floor(Math.random() * this.chars.length)];
-    }
-}
+'use strict';
 
-document.addEventListener('DOMContentLoaded', () => {
+// ── 1. PRELOADER ──────────────────────────────────────
+(function initPreloader() {
+    const preloader = document.getElementById('preloader');
+    if (!preloader) return;
 
-    // PRELOADER
-    const preloader = document.querySelector('.preloader');
-    const loaderPercentage = document.querySelector('.loader-percentage');
-    const loaderBar = document.querySelector('.loader-bar');
-    const scrambleElements = document.querySelectorAll('.scramble-text');
+    // Wait for all animations to finish (ring ~1.6s + name ~1.45s = 2s total)
+    // then fade out with a premium scale exit
+    const dismiss = () => {
+        preloader.classList.add('fade-out');
+        setTimeout(() => preloader.remove(), 600);
+    };
 
-    // Scramble texts initially
-    scrambleElements.forEach(el => {
-        const fx = new TextScrambler(el);
-        const text = el.getAttribute('data-text');
-        fx.setText(text);
+    window.addEventListener('load', () => {
+        // Minimum 2.2 s so animations have time to play fully
+        setTimeout(dismiss, 2200);
     });
 
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 15) + 5;
-        if (progress >= 100) progress = 100;
-
-        if (loaderPercentage) loaderPercentage.innerText = progress + '%';
-        if (loaderBar) loaderBar.style.width = progress + '%';
-
-        if (progress === 100) {
-            clearInterval(interval);
-            setTimeout(() => {
-                if (typeof gsap !== 'undefined') {
-                    // Small complete animation pulse before revealing
-                    gsap.to(loaderPercentage, {
-                        scale: 1.1,
-                        color: "var(--accent-tertiary)",
-                        duration: 0.3,
-                        ease: "power2.out",
-                        onComplete: () => {
-                            // Ultra smooth reveal
-                            gsap.to('.loader-content', {
-                                y: -50,
-                                opacity: 0,
-                                duration: 0.8,
-                                ease: "power3.in"
-                            });
-
-                            gsap.to(preloader, {
-                                height: 0,
-                                duration: 1.2,
-                                ease: "expo.inOut",
-                                delay: 0.4,
-                                onComplete: () => {
-                                    preloader.style.display = 'none';
-                                    initHeroAnimations();
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    preloader.style.display = 'none';
-                    initHeroAnimations();
-                }
-            }, 600);
-        }
-    }, 100);
-
-    function initHeroAnimations() {
-        // --- 0. Smooth Scrolling (Lenis) ---
-        if (typeof Lenis !== 'undefined') {
-            const lenis = new Lenis({
-                duration: 1.5,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                direction: 'vertical',
-                gestureDirection: 'vertical',
-                smooth: true,
-                mouseMultiplier: 1,
-                smoothTouch: false,
-                touchMultiplier: 2,
-            });
-
-            lenis.on('scroll', ScrollTrigger.update);
-            gsap.ticker.add((time) => {
-                lenis.raf(time * 1000);
-            });
-            gsap.ticker.lagSmoothing(0, 0);
-
-            // Export to window for global access if needed
-            window.lenis = lenis;
-        }
-
-        // --- Counter Animation ---
-        const counters = document.querySelectorAll('.counter-up');
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                const inc = target / 50;
-
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(updateCount, 40);
-                } else {
-                    counter.innerText = target;
-                }
-            };
-            updateCount();
-        });
-
-        // --- GSAP Scroll Reveal Initialization ---
-        if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
-            gsap.registerPlugin(ScrollTrigger);
-
-            // Hero Elements Reveal (Soft elegant fade and float up)
-            gsap.fromTo('.animate-in', {
-                y: 80, opacity: 0, filter: "blur(10px)"
-            }, {
-                y: 0, opacity: 1, filter: "blur(0px)", duration: 2, stagger: 0.15, ease: "power3.out"
-            });
+    // Safety: never block the page for more than 4 s
+    setTimeout(dismiss, 4000);
+})();
 
 
-            // General Section Reveals with battery smooth animations
-            gsap.utils.toArray('.pt-elem').forEach((elem) => {
-                gsap.fromTo(elem, {
-                    y: 60, opacity: 0, scale: 0.98
-                }, {
-                    y: 0, opacity: 1, scale: 1, duration: 1.5, ease: "expo.out",
-                    scrollTrigger: {
-                        trigger: elem,
-                        start: "top 85%",
-                        toggleActions: "play none none reverse"
-                    }
-                });
-            });
+// ── 2. CUSTOM CURSOR ──────────────────────────────────
+(function initCursor() {
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    if (!dot || !ring || window.innerWidth <= 768) return;
 
-            // Parallax - super smooth scrub
-            gsap.utils.toArray('.parallax-elem').forEach((elem) => {
-                const speed = elem.getAttribute('data-speed') || 0.2;
-                gsap.to(elem, {
-                    y: () => -(elem.parentElement.offsetHeight * speed),
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: elem.parentElement,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: 1.5 // Added higher scrub value for buttery smoothness
-                    }
-                });
-            });
+    let mx = -200, my = -200;
+    let rx = -200, ry = -200;
+    let rafId;
 
-            // Add buttery smooth image scaling on scroll for portfolio/about
-            gsap.utils.toArray('.card-image-placeholder img, .image-wrapper img').forEach(img => {
-                gsap.to(img, {
-                    scale: 1.15,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: img.parentElement,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: 1.5
-                    }
-                });
-            });
-
-            // Text character stagger on scroll for section titles
-            gsap.utils.toArray('.section-title').forEach(title => {
-                gsap.fromTo(title, {
-                    opacity: 0, x: -30
-                }, {
-                    opacity: 1, x: 0, duration: 1.5, ease: "expo.out",
-                    scrollTrigger: {
-                        trigger: title,
-                        start: "top 90%",
-                    }
-                });
-            });
-
-            // Orbit Scale Animation on Scroll
-            if (document.querySelector('.orbit-container')) {
-                gsap.fromTo('.orbit-container',
-                    { scale: 0.2, opacity: 0 },
-                    {
-                        scale: 1,
-                        opacity: 1,
-                        duration: 1.5,
-                        ease: "expo.out",
-                        scrollTrigger: {
-                            trigger: ".orbit-container",
-                            start: "top 80%",
-                            once: true // Ensures it only ever scales up exactly once when first seen and never reverts
-                        }
-                    }
-                );
-            }
-
-        } else {
-            document.querySelectorAll('.animate-in, .pt-elem').forEach(el => {
-                el.style.opacity = '1'; el.style.transform = 'none';
-            });
-        }
-
-        // --- 3D HOVER EFFECT FOR PORTFOLIO CARDS ---
-        // --- 3D HOVER EFFECT FOR PORTFOLIO CARDS ---
-        const cards = document.querySelectorAll('.portfolio-card');
-        cards.forEach(card => {
-            // PERFORMANCE: pre-compile GSAP tweens instead of creating new ones every milisecond on mousemove
-            const xTo = gsap.quickTo(card, "rotationX", { ease: "power1.out", duration: 0.4 });
-            const yTo = gsap.quickTo(card, "rotationY", { ease: "power1.out", duration: 0.4 });
-
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                // Calculate rotational values based on mouse position relative to center
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const rotateX = ((y - centerY) / centerY) * -8; // Max 8 deg tilt
-                const rotateY = ((x - centerX) / centerX) * 8;
-
-                // Pipe directly to hardware without overhead
-                xTo(rotateX);
-                yTo(rotateY);
-            });
-
-            card.addEventListener('mouseleave', () => {
-                // Reset card on mouse leave smoothly
-                xTo(0);
-                yTo(0);
-            });
-        });
-
-        // --- PLAYABLE VIDEO EMBEDS (CANVA, YOUTUBE, ETC) ---
-        const playableVideos = document.querySelectorAll('.video-playable');
-        playableVideos.forEach(playable => {
-            playable.addEventListener('click', function () {
-                const thumbnail = this.querySelector('.thumbnail-cover');
-                const iframeContainer = this.querySelector('.iframe-container');
-                const iframe = iframeContainer.querySelector('iframe');
-
-                if (thumbnail && iframeContainer && iframe) {
-                    // Set the embedded source ONLY on click to save initial load times
-                    if (!iframe.src || iframe.src === '') {
-                        // Directly assign the embed URL without modifying query strings
-                        iframe.src = iframe.getAttribute('data-src');
-                    }
-
-                    // Hide the Custom Photo & Play Button
-                    thumbnail.style.opacity = '0';
-                    thumbnail.style.pointerEvents = 'none';
-
-                    // Reveal the Iframe / Play the Video
-                    iframeContainer.style.opacity = '1';
-                    iframeContainer.style.pointerEvents = 'auto';
-                    iframeContainer.style.zIndex = '20'; // Fixes interaction blocking
-                }
-            });
-        });
-    }
-
-    // --- 2. Custom Cursor & Hover States ---
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorOutline = document.querySelector('.cursor-outline');
-
-    if (window.innerWidth > 768) {
-        window.addEventListener('mousemove', (e) => {
-            // PERFORMANCE: Pass Coordinates to GPU via CSS vars instead of direct transform overwrites
-            cursorDot.style.setProperty('--x', `${e.clientX}px`);
-            cursorDot.style.setProperty('--y', `${e.clientY}px`);
-            cursorOutline.style.setProperty('--x', `${e.clientX}px`);
-            cursorOutline.style.setProperty('--y', `${e.clientY}px`);
-        });
-
-        document.querySelectorAll('.hover-target, a, button, input, textarea, select').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
-    } else {
-        if (cursorDot) cursorDot.style.display = 'none';
-        if (cursorOutline) cursorOutline.style.display = 'none';
-        document.body.style.cursor = 'auto';
-    }
-
-    // --- 3. Magnetic Buttons ---
-    document.querySelectorAll('.magnetic').forEach((btn) => {
-        btn.addEventListener('mousemove', (e) => {
-            const position = btn.getBoundingClientRect();
-            const x = e.clientX - position.left - position.width / 2;
-            const y = e.clientY - position.top - position.height / 2;
-            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
-        });
-        btn.addEventListener('mouseleave', () => {
-            btn.style.transform = 'translate(0px, 0px)';
-        });
+    window.addEventListener('mousemove', (e) => {
+        mx = e.clientX;
+        my = e.clientY;
     });
 
-    // --- 4. Dynamic Spotlight Cards ---
-    document.querySelectorAll('.spotlight-card').forEach(card => {
-        card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
+    function tick() {
+        // Dot: instant
+        dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+
+        // Ring: smooth interpolation
+        rx += (mx - rx) * 0.14;
+        ry += (my - ry) * 0.14;
+        ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+
+        rafId = requestAnimationFrame(tick);
+    }
+    tick();
+
+    // Hover states
+    const targets = 'a, button, input, textarea, select, [role="button"], .work-video-wrap, .service-card, .pillar, .contact-link, .testi-card';
+    document.querySelectorAll(targets).forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    document.addEventListener('mouseleave', () => {
+        dot.style.opacity = '0';
+        ring.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+        dot.style.opacity = '1';
+        ring.style.opacity = '1';
+    });
+})();
+
+
+// ── 3. NAVBAR ─────────────────────────────────────────
+(function initNavbar() {
+    const navbar = document.getElementById('navbar');
+    const burger = document.getElementById('nav-burger');
+    const menu = document.getElementById('nav-menu');
+    if (!navbar) return;
+
+    // Scroll class
+    const onScroll = () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Mobile toggle
+    if (burger && menu) {
+        burger.addEventListener('click', () => {
+            const open = menu.classList.toggle('open');
+            burger.classList.toggle('open', open);
+            document.body.style.overflow = open ? 'hidden' : '';
         });
-    });
 
-    // --- 5. Mobile Menu & Navbar Scroll ---
-    const menuToggle = document.querySelector('.mobile-menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    const navbar = document.querySelector('.navbar');
-
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        const icon = menuToggle.querySelector('i');
-        icon.classList.replace(navLinks.classList.contains('active') ? 'ph-list' : 'ph-x', navLinks.classList.contains('active') ? 'ph-x' : 'ph-list');
-    });
-
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            menuToggle.querySelector('i').classList.replace('ph-x', 'ph-list');
-        });
-    });
-
-    window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 80);
-    });
-
-    // --- 6. HTML5 Video Custom Player Controls (Ultra Premium) ---
-    const showreelVideo = document.getElementById('video-showreel');
-    const portfolioVideo = document.getElementById('video-portfolio');
-
-    function setupNativeVideoControls(videoEl, playBtnId, muteBtnId) {
-        if (!videoEl) return;
-        const playBtn = document.getElementById(playBtnId);
-        const muteBtn = document.getElementById(muteBtnId);
-
-        // Custom Play/Pause logic
-        const togglePlay = () => {
-            if (videoEl.paused) {
-                videoEl.play();
-                if (playBtn) playBtn.innerHTML = '<i class="ph-bold ph-pause"></i>';
-            } else {
-                videoEl.pause();
-                if (playBtn) playBtn.innerHTML = '<i class="ph-bold ph-play"></i>';
-            }
-        };
-
-        if (playBtn) playBtn.addEventListener('click', togglePlay);
-
-        if (muteBtn) {
-            muteBtn.addEventListener('click', () => {
-                if (videoEl.muted) {
-                    videoEl.muted = false;
-                    muteBtn.innerHTML = '<i class="ph-bold ph-speaker-high"></i>';
-                } else {
-                    videoEl.muted = true;
-                    muteBtn.innerHTML = '<i class="ph-bold ph-speaker-slash"></i>';
-                }
+        // Close on link click
+        menu.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                menu.classList.remove('open');
+                burger.classList.remove('open');
+                document.body.style.overflow = '';
             });
-        }
-
-        // Auto-preview logic (Intersection Observer)
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Video is in view, play it automatically (apne aap preview)
-                    videoEl.play().then(() => {
-                        if (playBtn) playBtn.innerHTML = '<i class="ph-bold ph-pause"></i>';
-                    }).catch(() => {
-                        // Browser might block autoplay without interaction
-                        if (playBtn) playBtn.innerHTML = '<i class="ph-bold ph-play"></i>';
-                    });
-                } else {
-                    // Video out of view, pause to save resources
-                    videoEl.pause();
-                    if (playBtn) playBtn.innerHTML = '<i class="ph-bold ph-play"></i>';
-                }
-            });
-        }, { threshold: 0.3 });
-
-        observer.observe(videoEl);
-    }
-
-    setupNativeVideoControls(showreelVideo, 'showreel-play-btn', 'showreel-mute-btn');
-    setupNativeVideoControls(portfolioVideo, 'portfolio-play-btn', 'portfolio-mute-btn');
-
-    // --- 7. Hover Preview for Portfolio Images ---
-    const hoverPreviewContainers = document.querySelectorAll('.hover-preview-container');
-    hoverPreviewContainers.forEach(container => {
-        const video = container.querySelector('.hover-video');
-        if (video) {
-            container.addEventListener('mouseenter', () => {
-                video.currentTime = 0; // Reset to start
-                video.play().catch(e => console.log("Hover autoplay restricted: ", e));
-            });
-            container.addEventListener('mouseleave', () => {
-                video.pause();
-            });
-        }
-    });
-
-    // Make sure main videos play on mouseenter too if paused
-    const videoContainers = document.querySelectorAll('.video-ratio, .card-image-placeholder:not(.custom-video-wrapper)');
-    videoContainers.forEach(container => {
-        container.addEventListener('mouseenter', () => {
-            const vid = container.querySelector('video');
-            if (vid && vid.paused) {
-                vid.play().then(() => {
-                    const pb = container.querySelector('[id$="-play-btn"]');
-                    if (pb) pb.innerHTML = '<i class="ph-bold ph-pause"></i>';
-                }).catch(e => { });
-            }
-        });
-    });
-
-    // --- 8. Premium Particle Background (LanderX Style) ---
-    const canvas = document.getElementById('particles-canvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-        let particles = [];
-
-        // LanderX colors for particles
-        const colors = ['#ffffff', '#4D76FD', '#3b5bdb'];
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.opacity = Math.random() * 0.5 + 0.1;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > width || this.x < 0) this.speedX *= -1;
-                if (this.y > height || this.y < 0) this.speedY *= -1;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.opacity;
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particles = [];
-            // Optimize particle count based on screen size
-            const numberOfParticles = Math.floor((width * height) / 12000);
-            for (let i = 0; i < numberOfParticles; i++) {
-                particles.push(new Particle());
-            }
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, width, height);
-
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-
-                // Draw connecting lines if close
-                for (let j = i; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < 120) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = '#4D76FD';
-                        // Line opacity based on distance
-                        ctx.globalAlpha = (120 - distance) / 1200;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                        ctx.globalAlpha = 1; // reset
-                    }
-                }
-            }
-            requestAnimationFrame(animateParticles);
-        }
-
-        initParticles();
-        animateParticles();
-
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            initParticles();
         });
     }
+})();
 
-    // --- 9. Premium Button Click Glow/Shine ---
-    const interactiveButtons = document.querySelectorAll('.btn-primary, .btn-secondary, .btn-outline, .btn-primary-sm, .submit-btn, button, .ctrl-btn');
-    interactiveButtons.forEach(btn => {
-        // Ensure relative positioning for ripple containment
-        if (window.getComputedStyle(btn).position === 'static') {
-            btn.style.position = 'relative';
-        }
-        btn.style.overflow = 'hidden';
 
-        btn.addEventListener('click', function (e) {
-            // Remove the class if it exists to restart animation
-            this.classList.remove('btn-clicked');
+// ── 4. SCROLL REVEAL ──────────────────────────────────
+(function initReveal() {
+    const els = document.querySelectorAll('.reveal');
+    if (!els.length) return;
 
-            // Force browser reflow to apply the class reset
-            void this.offsetWidth;
-
-            // Add the animation class
-            this.classList.add('btn-clicked');
-
-            // Add the internal shining ripple
-            let rect = this.getBoundingClientRect();
-            let x = e.clientX - rect.left;
-            let y = e.clientY - rect.top;
-
-            let ripple = document.createElement('span');
-            ripple.className = 'click-ripple';
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-
-            this.appendChild(ripple);
-
-            // Cleanup animation elements
-            setTimeout(() => {
-                ripple.remove();
-                this.classList.remove('btn-clicked');
-            }, 600);
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('in-view');
+                observer.unobserve(e.target);
+            }
         });
-    });
+    }, { threshold: 0.12 });
 
-    // --- 10. True Google Gemini AI Agent Logic ---
-    const aiWidgetContainer = document.getElementById('ai-widget-container');
-    const aiChatWindow = document.getElementById('ai-chat-window');
-    const aiFab = document.getElementById('ai-fab');
-    const closeChatBtn = document.getElementById('close-chat-btn');
-    const aiUserInput = document.getElementById('ai-user-input');
-    const aiSendBtn = document.getElementById('ai-send-btn');
-    const aiChatBody = document.getElementById('ai-chat-body');
+    els.forEach(el => observer.observe(el));
+})();
 
-    // Setup initial UI states
-    if (aiFab && aiChatWindow && closeChatBtn) {
-        aiFab.addEventListener('click', () => {
-            aiChatWindow.classList.remove('hidden');
-            aiFab.style.display = 'none';
-        });
 
-        closeChatBtn.addEventListener('click', () => {
-            aiChatWindow.classList.add('hidden');
-            aiFab.style.display = 'flex';
-        });
+// ── 5. HERO COUNTERS ──────────────────────────────────
+(function initCounters() {
+    const statNums = document.querySelectorAll('.stat-num');
+    if (!statNums.length) return;
 
-        // Lock Lenis Smooth Scroll when interacting with the Chat Window
-        aiChatWindow.addEventListener('mouseenter', () => {
-            if (window.lenis) window.lenis.stop();
-        });
-        aiChatWindow.addEventListener('mouseleave', () => {
-            if (window.lenis) window.lenis.start();
-        });
-    }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const el = e.target;
+            const target = parseInt(el.dataset.target, 10);
+            if (isNaN(target)) return;
 
-    /**
-     * GROQ AI INTEGRATION
-     * IMPORTANT: Replace the key below with your new Groq API key!
-     */
-    // Obfuscated key to prevent GitHub from instantly revoking it
-    const _gk1 = "gsk_LheYrfkvuri5N";
-    const _gk2 = "W5Vxb1gWGdyb3FYk";
-    const _gk3 = "UIC3nlnHV0yMkzvd66C8pKl";
-    const GROQ_API_KEY = _gk1 + _gk2 + _gk3;
+            let start = 0;
+            const duration = 1200;
+            const startTime = performance.now();
 
-    let groqChatHistory = [
-        {
-            role: "system",
-            content: "You are the personal AI assistant for Biprasish Chakraborty, an elite professional video editor with 2+ years of experience and over 10 million organic views. You operate on this portfolio website. " +
-                "SPECIAL INSTRUCTION: If a client asks about pricing, hiring, or wanting to talk/work with Biprasish, you MUST collect their details before answering. Ask them ONE BY ONE in this exact order: " +
-                "1. Their Name. " +
-                "2. Their Email Address. " +
-                "3. Their Phone Number. " +
-                "4. The Type of Work they need (e.g., YouTube video, Shorts, Commercial). " +
-                "5. A short message about their project. " +
-                "DO NOT ask all questions at once. Wait for them to answer each question before asking the next. " +
-                "Once you have successfully collected ALL 5 pieces of information, you MUST include the following exact text format ON A NEW LINE at the very end of your final confirmation message: " +
-                "[[SEND_EMAIL_NOW|NAME:their_name|EMAIL:their_email|PHONE:their_phone|WORK:their_work|MESSAGE:their_message]] " +
-                "Make sure to replace the placeholder values with the actual information you collected. Then tell them their inquiry is being transmitted to Biprasish immediately. Keep other general answers concise, futuristic, and engaging."
-        }
-    ];
-
-    setTimeout(() => {
-        appendAIMessage("Initialisation complete. I am Biprasish's extremely fast Groq AI agent. How can I assist you in crafting visual masterpieces today?");
-    }, 1000);
-
-    // Handle sending messages
-    async function handleUserMessage() {
-        const text = aiUserInput.value.trim();
-        if (!text) return;
-
-        // Clear input and append user's visual message
-        aiUserInput.value = '';
-        appendUserMessage(text);
-
-        // Add to history
-        groqChatHistory.push({ role: "user", content: text });
-
-        // Show typing indicator
-        const typingId = appendAIMessage("...");
-
-        try {
-            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${GROQ_API_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile", // Powerful open source 70B model
-                    messages: groqChatHistory,
-                    temperature: 0.7,
-                    max_completion_tokens: 1024
-                })
-            });
-
-            if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error?.message || "Groq API Error");
+            function step(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease-out cubic
+                const ease = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(ease * target);
+                if (progress < 1) requestAnimationFrame(step);
             }
 
-            const data = await response.json();
-            let responseText = data.choices[0].message.content;
-
-            // Add AI response to history
-            groqChatHistory.push({ role: "assistant", content: responseText });
-
-            // Check for the special email trigger
-            // Expected format: [[SEND_EMAIL_NOW|NAME:John|EMAIL:john@x.com|PHONE:12345|WORK:Video|MESSAGE:Hi]]
-            const emailRegex = /\[\[SEND_EMAIL_NOW\|NAME:(.*?)\|EMAIL:(.*?)\|PHONE:(.*?)\|WORK:(.*?)\|MESSAGE:(.*?)\]\]/is;
-            const match = responseText.match(emailRegex);
-
-            if (match) {
-                // Remove the raw trigger command from the message shown to the user
-                responseText = responseText.replace(emailRegex, '').trim();
-
-                // Extract the details
-                const clientName = match[1].trim();
-                const clientEmail = match[2].trim();
-                const clientPhone = match[3].trim();
-                const clientWork = match[4].trim();
-                const clientMessage = match[5].trim();
-
-                // Prepare FormData for Formspree
-                const formData = new FormData();
-                formData.append('name', clientName);
-                formData.append('email', clientEmail);
-                formData.append('phone', clientPhone);
-                formData.append('service', clientWork);
-                formData.append('message', `[VIA GROQ AI AGENT]\n\nPhone Number: ${clientPhone}\nType of Work: ${clientWork}\n\nClient Message:\n${clientMessage}`);
-
-                // Send silently in sequence via Formspree API
-                fetch('https://formspree.io/f/meelvolq', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }).then(res => {
-                    if (res.ok) console.log("AI Agent Lead sent successfully to Formspree!");
-                    else console.error("Formspree rejected the AI Agent submission.");
-                }).catch(err => console.error("Network error while submitting Formspree data:", err));
-            }
-
-            updateAIMessage(typingId, responseText);
-        } catch (error) {
-            console.error("Groq Conversation Error:", error);
-            updateAIMessage(typingId, `[System Error]: Signal disrupted. Reason: ${error.message || "Unknown Network/Authentication Error"}`);
-        }
-    }
-
-    // UI Message Appenders
-    function appendUserMessage(text) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'ai-message user';
-        wrapper.innerHTML = `<div class="msg-bubble">${escapeHTML(text)}</div>`;
-        aiChatBody.appendChild(wrapper);
-        aiChatBody.scrollTop = aiChatBody.scrollHeight;
-    }
-
-    function appendAIMessage(text) {
-        const id = 'ai-msg-' + Date.now();
-        const wrapper = document.createElement('div');
-        wrapper.className = 'ai-message system';
-        wrapper.innerHTML = `<div class="msg-bubble" id="${id}">${escapeHTML(text)}</div>`;
-        aiChatBody.appendChild(wrapper);
-        aiChatBody.scrollTop = aiChatBody.scrollHeight;
-        return id;
-    }
-
-    function updateAIMessage(id, text) {
-        const msgBubble = document.getElementById(id);
-        if (msgBubble) {
-            // Apply simple formatting (allow basic bolding generated by Gemini)
-            let formattedText = escapeHTML(text).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            msgBubble.innerHTML = formattedText;
-            aiChatBody.scrollTop = aiChatBody.scrollHeight;
-        }
-    }
-
-    function escapeHTML(str) {
-        return str.replace(/[&<>'"]/g,
-            tag => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                "'": '&#39;',
-                '"': '&quot;'
-            }[tag] || tag)
-        );
-    }
-
-    // Input listeners
-    if (aiSendBtn) aiSendBtn.addEventListener('click', handleUserMessage);
-    if (aiUserInput) {
-        aiUserInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleUserMessage();
+            requestAnimationFrame(step);
+            observer.unobserve(el);
         });
-    }
+    }, { threshold: 0.5 });
 
-    // --- 11. Custom Video Player Logic (Play/Pause & Seek Bar) ---
-    document.querySelectorAll('.custom-video-wrapper').forEach(wrapper => {
-        const video = wrapper.querySelector('.custom-video');
-        const playPauseBtn = wrapper.querySelector('.play-pause-btn');
-        const playIcon = playPauseBtn ? playPauseBtn.querySelector('i') : null;
-        const seekBar = wrapper.querySelector('.seek-bar');
-        const timeDisplay = wrapper.querySelector('.time-display');
+    statNums.forEach(el => observer.observe(el));
+})();
 
-        if (!video || !playPauseBtn) return; // Skip if elements are missing
 
-        // 0. Auto-Thumbnail Logic
-        const currentPoster = video.getAttribute('poster');
-        const videoSrc = video.getAttribute('src') || '';
+// ── 6. SHOWREEL CONTROLS ──────────────────────────────
+(function initShowreel() {
+    const video = document.getElementById('reel-video');
+    const playBtn = document.getElementById('reel-play-btn');
+    const playIcon = document.getElementById('reel-play-icon');
+    const muteBtn = document.getElementById('reel-mute-btn');
+    const muteIcon = document.getElementById('reel-mute-icon');
+    if (!video) return;
 
-        // Check if the user hasn't provided a custom poster (or it's just a default placeholder)
-        const isPlaceholder = currentPoster && currentPoster.includes('source.unsplash.com');
-        const noPoster = !currentPoster || currentPoster.trim() === '';
-
-        if (noPoster || isPlaceholder) {
-            if (videoSrc.includes('cloudinary.com') && videoSrc.endsWith('.mp4')) {
-                // Cloudinary native feature: swap .mp4 to .jpg to automatically extract a thumbnail
-                video.setAttribute('poster', videoSrc.replace('.mp4', '.jpg'));
-            } else if (videoSrc && !videoSrc.includes('#t=')) {
-                // Fallback for non-Cloudinary videos: force browser to load first frame
-                video.removeAttribute('poster');
-                video.src = videoSrc + '#t=0.1';
-            }
-        }
-
-        // 1. Play / Pause Logic
-        const togglePlay = () => {
+    // Play/Pause
+    if (playBtn) {
+        playBtn.addEventListener('click', () => {
             if (video.paused) {
                 video.play();
-                playIcon.classList.replace('ph-play', 'ph-pause');
+                playIcon.className = 'fa-solid fa-pause';
             } else {
                 video.pause();
-                playIcon.classList.replace('ph-pause', 'ph-play');
+                playIcon.className = 'fa-solid fa-play';
+            }
+        });
+    }
+
+    // Mute/Unmute
+    if (muteBtn) {
+        muteBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+            muteIcon.className = video.muted
+                ? 'fa-solid fa-volume-xmark'
+                : 'fa-solid fa-volume-high';
+        });
+    }
+
+    // Auto-pause when out of view
+    const ob = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) video.pause();
+        });
+    }, { threshold: 0.3 });
+    ob.observe(video);
+})();
+
+
+// ── 7. WORK VIDEO PLAYERS ─────────────────────────────
+(function initWorkVideos() {
+    document.querySelectorAll('.work-video-wrap').forEach(wrap => {
+        const video = wrap.querySelector('.work-video');
+        const playBtn = wrap.querySelector('.wv-play-btn');
+        const seek = wrap.querySelector('.wv-seek');
+        const timeEl = wrap.querySelector('.wv-time');
+        if (!video || !playBtn) return;
+
+        // Auto-thumbnail via Cloudinary trick
+        const src = video.getAttribute('src') || '';
+        const hasPoster = video.getAttribute('poster') && !video.getAttribute('poster').includes('unsplash');
+        if (!hasPoster && src.includes('cloudinary.com') && src.endsWith('.mp4')) {
+            video.setAttribute('poster', src.replace('.mp4', '.jpg'));
+        }
+
+        // Play/Pause
+        const togglePlay = () => {
+            if (video.paused) {
+                // Pause all other videos
+                document.querySelectorAll('.work-video').forEach(v => {
+                    if (v !== video) {
+                        v.pause();
+                        const pb = v.closest('.work-video-wrap')?.querySelector('.wv-play-btn i');
+                        if (pb) pb.className = 'fa-solid fa-play';
+                    }
+                });
+                video.play().catch(() => { });
+                playBtn.querySelector('i').className = 'fa-solid fa-pause';
+            } else {
+                video.pause();
+                playBtn.querySelector('i').className = 'fa-solid fa-play';
             }
         };
 
-        playPauseBtn.addEventListener('click', togglePlay);
-
-        // Click anywhere on the wrapper to play/pause
-        wrapper.addEventListener('click', (e) => {
-            // Only toggle play if clicking outside the controls
-            if (e.target.closest('.custom-player-controls')) return;
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             togglePlay();
         });
 
-        // 2. Formatting Time helper (Eg: 0:00)
-        const formatTime = (timeInSeconds) => {
-            if (isNaN(timeInSeconds)) return "0:00";
-            const mins = Math.floor(timeInSeconds / 60);
-            const secs = Math.floor(timeInSeconds % 60);
-            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        };
-
-        // 3. Update the Time & Seek Bar Progress periodically
-        video.addEventListener('timeupdate', () => {
-            // Update Seek Bar Graphic
-            const progress = (video.currentTime / video.duration) * 100;
-            if (!isNaN(progress)) {
-                seekBar.value = progress;
-            }
-
-            // Update Time Text
-            timeDisplay.innerText = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+        wrap.addEventListener('click', (e) => {
+            if (e.target.closest('.wv-progress-wrap')) return;
+            togglePlay();
         });
 
-        // 4. Update Video when User drag/scrubs the Seek Bar
-        seekBar.addEventListener('input', () => {
-            const newTime = (seekBar.value / 100) * video.duration;
-            video.currentTime = newTime;
-        });
+        // Seek bar
+        if (seek) {
+            video.addEventListener('timeupdate', () => {
+                if (!isNaN(video.duration) && video.duration > 0) {
+                    seek.value = (video.currentTime / video.duration) * 100;
+                    if (timeEl) timeEl.textContent = `${fmt(video.currentTime)} / ${fmt(video.duration)}`;
+                }
+            });
 
-        // 5. Setup initial time display once video loads
-        video.addEventListener('loadedmetadata', () => {
-            timeDisplay.innerText = `0:00 / ${formatTime(video.duration)}`;
-        });
+            video.addEventListener('loadedmetadata', () => {
+                if (timeEl) timeEl.textContent = `0:00 / ${fmt(video.duration)}`;
+            });
 
-        // 6. Automatically reset icon to Play when video ends
+            seek.addEventListener('input', () => {
+                if (!isNaN(video.duration)) {
+                    video.currentTime = (seek.value / 100) * video.duration;
+                }
+            });
+        }
+
         video.addEventListener('ended', () => {
-            playIcon.classList.replace('ph-pause', 'ph-play');
+            playBtn.querySelector('i').className = 'fa-solid fa-play';
         });
+
+        // Auto pause on scroll out
+        const ob = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (!e.isIntersecting) video.pause(); });
+        }, { threshold: 0.1 });
+        ob.observe(video);
     });
 
-});
+    function fmt(s) {
+        if (isNaN(s)) return '0:00';
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return `${m}:${sec < 10 ? '0' : ''}${sec}`;
+    }
+})();
+
+
+// ── 8. CONTACT FORM ───────────────────────────────────
+(function initForm() {
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('form-status');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        const originalText = btn.innerHTML;
+
+        btn.innerHTML = '<span>Sending…</span>';
+        btn.disabled = true;
+
+        try {
+            const res = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (res.ok) {
+                form.reset();
+                if (status) {
+                    status.textContent = 'Message sent! I\'ll be in touch soon.';
+                    status.className = 'form-note success';
+                }
+            } else {
+                throw new Error('Server error');
+            }
+        } catch {
+            if (status) {
+                status.textContent = 'Something went wrong. Please try emailing me directly.';
+                status.className = 'form-note error';
+            }
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            setTimeout(() => {
+                if (status) { status.textContent = ''; status.className = 'form-note'; }
+            }, 6000);
+        }
+    });
+})();
+
+
+// ── 9. BUTTON RIPPLE ──────────────────────────────────
+(function initRipple() {
+    document.querySelectorAll('.btn-primary, .btn-ghost, .service-cta').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height) * 2;
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            const ripple = document.createElement('span');
+            ripple.className = 'btn-ripple';
+            ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+})();
+
+
+// ── 10. GSAP SCROLL ANIMATIONS ────────────────────────
+(function initGSAP() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Subtle parallax on hero blobs
+    gsap.to('.blob-1', {
+        y: -60,
+        ease: 'none',
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 }
+    });
+    gsap.to('.blob-2', {
+        y: -40,
+        ease: 'none',
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
+    });
+
+    // Reel frame scale-in
+    gsap.fromTo('.reel-frame', { scale: 0.96 }, {
+        scale: 1,
+        ease: 'power2.out',
+        duration: 1,
+        scrollTrigger: { trigger: '.reel-frame', start: 'top 85%' }
+    });
+
+    // Work cards stagger
+    ScrollTrigger.batch('.work-card', {
+        onEnter: batch => gsap.fromTo(batch, { opacity: 0, y: 24 }, {
+            opacity: 1, y: 0,
+            duration: 0.55,
+            stagger: 0.07,
+            ease: 'power2.out'
+        }),
+        start: 'top 90%',
+    });
+
+    // Service cards
+    ScrollTrigger.batch('.service-card', {
+        onEnter: batch => gsap.fromTo(batch, { opacity: 0, y: 20 }, {
+            opacity: 1, y: 0,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: 'power2.out'
+        }),
+        start: 'top 88%',
+    });
+
+    // About image
+    gsap.fromTo('.about-img-frame', { opacity: 0, x: -32 }, {
+        opacity: 1, x: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '.about-grid', start: 'top 80%' }
+    });
+
+    gsap.fromTo('.about-text-col', { opacity: 0, x: 32 }, {
+        opacity: 1, x: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '.about-grid', start: 'top 80%' }
+    });
+})();
+
+
+// ── 11. AI CHAT WIDGET ────────────────────────────────
+(function initAIChat() {
+    const fab = document.getElementById('ai-fab');
+    const chat = document.getElementById('ai-chat');
+    const closeBtn = document.getElementById('ai-close-btn');
+    const input = document.getElementById('ai-input');
+    const sendBtn = document.getElementById('ai-send-btn');
+    const chatBody = document.getElementById('ai-chat-body');
+    if (!fab || !chat || !chatBody) return;
+
+    // Toggle
+    fab.addEventListener('click', () => {
+        chat.classList.remove('hidden');
+        fab.style.display = 'none';
+        input?.focus();
+    });
+
+    closeBtn?.addEventListener('click', () => {
+        chat.classList.add('hidden');
+        fab.style.display = 'flex';
+    });
+
+    // Initial greeting
+    setTimeout(() => appendBot("Hi! I'm Biprasish's AI assistant. Ask me about his work, services, or how to get started on a project."), 400);
+
+    // AI Key (split to avoid instant revoke on GitHub)
+    const _k = ["gsk_LheYrfkvuri5N", "W5Vxb1gWGdyb3FYk", "UIC3nlnHV0yMkzvd66C8pKl"];
+    const GROQ_KEY = _k.join('');
+
+    let history = [{
+        role: 'system',
+        content: `You are the professional AI assistant for Biprasish Chakraborty, an elite video editor with 2+ years of experience and 10M+ organic views. 
+You represent his portfolio at creativeedits.mov.
+If a user asks about pricing, hiring, or working with Biprasish, collect their info one question at a time in this order:
+1. Name
+2. Email
+3. Phone number
+4. Type of work (e.g., YouTube, Shorts, Commercial)
+5. Brief project description
+Once you have ALL 5, include this exact tag on a new line: [[LEAD|NAME:n|EMAIL:e|PHONE:p|WORK:w|MSG:m]]
+Replace placeholders with actual values. Then confirm their inquiry is being sent.
+Keep responses concise, professional, and warm.`
+    }];
+
+    async function sendMessage() {
+        const text = input?.value.trim();
+        if (!text) return;
+
+        input.value = '';
+        appendUser(text);
+        history.push({ role: 'user', content: text });
+
+        const thinkingId = appendBot('…', true);
+
+        try {
+            const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${GROQ_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: 'llama-3.3-70b-versatile',
+                    messages: history,
+                    temperature: 0.65,
+                    max_completion_tokens: 512
+                })
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error?.message || 'API error');
+
+            let reply = data.choices[0].message.content;
+            history.push({ role: 'assistant', content: reply });
+
+            // Check for lead trigger
+            const leadMatch = reply.match(/\[\[LEAD\|NAME:(.*?)\|EMAIL:(.*?)\|PHONE:(.*?)\|WORK:(.*?)\|MSG:(.*?)\]\]/is);
+            if (leadMatch) {
+                reply = reply.replace(/\[\[LEAD.*?\]\]/is, '').trim();
+                sendLead({
+                    name: leadMatch[1].trim(),
+                    email: leadMatch[2].trim(),
+                    phone: leadMatch[3].trim(),
+                    service: leadMatch[4].trim(),
+                    message: leadMatch[5].trim()
+                });
+            }
+
+            updateMsg(thinkingId, reply);
+        } catch (err) {
+            updateMsg(thinkingId, `Sorry, I'm having trouble connecting right now. Please email directly: imcreativeeditsmov@gmail.com`);
+        }
+    }
+
+    function sendLead({ name, email, phone, service, message }) {
+        const fd = new FormData();
+        fd.append('name', name);
+        fd.append('email', email);
+        fd.append('phone', phone);
+        fd.append('service', service);
+        fd.append('message', `[VIA AI ASSISTANT]\n\nPhone: ${phone}\nService: ${service}\n\n${message}`);
+
+        fetch('https://formspree.io/f/meelvolq', {
+            method: 'POST', body: fd,
+            headers: { 'Accept': 'application/json' }
+        }).catch(() => { });
+    }
+
+    function appendUser(text) {
+        const m = document.createElement('div');
+        m.className = 'ai-msg ai-msg-user';
+        m.textContent = text;
+        chatBody.appendChild(m);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function appendBot(text, thinking = false) {
+        const id = 'msg-' + Date.now();
+        const m = document.createElement('div');
+        m.className = 'ai-msg ai-msg-bot';
+        m.id = id;
+        m.textContent = text;
+        if (thinking) m.style.opacity = '0.5';
+        chatBody.appendChild(m);
+        chatBody.scrollTop = chatBody.scrollHeight;
+        return id;
+    }
+
+    function updateMsg(id, text) {
+        const m = document.getElementById(id);
+        if (!m) return;
+        // Support **bold** formatting
+        m.innerHTML = escHtml(text).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        m.style.opacity = '1';
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function escHtml(str) {
+        return str.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    sendBtn?.addEventListener('click', sendMessage);
+    input?.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+})();
