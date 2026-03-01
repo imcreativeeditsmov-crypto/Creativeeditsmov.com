@@ -90,6 +90,8 @@
     const navbar = document.getElementById('navbar');
     const burger = document.getElementById('nav-burger');
     const menu = document.getElementById('nav-menu');
+    const closeBtn = document.getElementById('nav-close-btn');
+    const backdrop = document.getElementById('nav-backdrop');
     if (!navbar) return;
 
     const onScroll = () => {
@@ -98,19 +100,36 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
+    function openMenu() {
+        menu.classList.add('open');
+        burger.classList.add('open');
+        backdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        menu.classList.remove('open');
+        burger.classList.remove('open');
+        backdrop.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
     if (burger && menu) {
         burger.addEventListener('click', () => {
-            const open = menu.classList.toggle('open');
-            burger.classList.toggle('open', open);
-            document.body.style.overflow = open ? 'hidden' : '';
+            menu.classList.contains('open') ? closeMenu() : openMenu();
         });
 
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (backdrop) backdrop.addEventListener('click', closeMenu);
+
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && menu.classList.contains('open')) closeMenu();
+        });
+
+        // Close when a nav link is clicked
         menu.querySelectorAll('a').forEach(a => {
-            a.addEventListener('click', () => {
-                menu.classList.remove('open');
-                burger.classList.remove('open');
-                document.body.style.overflow = '';
-            });
+            a.addEventListener('click', closeMenu);
         });
     }
 })();

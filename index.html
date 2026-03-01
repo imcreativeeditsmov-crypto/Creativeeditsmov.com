@@ -60,6 +60,7 @@
     <div id="cursor-ring"></div>
 
     <!-- ========== NAVIGATION ========== -->
+    <div id="nav-backdrop" aria-hidden="true"></div>
     <nav id="navbar">
         <div class="nav-inner">
             <a href="#hero" class="nav-logo" id="nav-logo-link">
@@ -67,12 +68,19 @@
             </a>
 
             <ul class="nav-menu" id="nav-menu">
+                <li class="nav-menu-header">
+                    <span class="nav-menu-brand"><span>C</span>reativeEdits</span>
+                    <button class="nav-close-btn" id="nav-close-btn" aria-label="Close menu">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </li>
                 <li><a href="#showreel" class="nav-link">Showreel</a></li>
                 <li><a href="#work" class="nav-link">Work</a></li>
                 <li><a href="#services" class="nav-link">Services</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
-                <li><a href="store.html" class="nav-store-btn" id="nav-store-link">
+                <li class="nav-menu-divider"></li>
+                <li><a href="#contact" class="nav-cta nav-cta-full">Get in Touch</a></li>
+                <li><a href="store.html" class="nav-store-btn nav-store-full" id="nav-store-link">
                         <i class="fa-solid fa-bag-shopping"></i> Store
                     </a></li>
             </ul>
