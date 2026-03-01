@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biprasish Chakraborty — Video Editor</title>
+    <title>CreativeEdits — Video Editor</title>
     <meta name="description"
         content="Professional video editor crafting scroll-stopping, high-retention cinematic content. 10M+ views generated. Available for YouTube, Shorts, Commercial, and Motion Graphics work.">
     <meta name="keywords"
-        content="video editor, YouTube editor, short form video, motion graphics, cinematic editing, Biprasish Chakraborty">
+        content="video editor, YouTube editor, short form video, motion graphics, cinematic editing, CreativeEdits">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Biprasish Chakraborty — Video Editor">
+    <meta property="og:title" content="CreativeEdits — Video Editor">
     <meta property="og:description" content="Turning raw footage into cinematic content that drives real growth.">
     <meta property="og:type" content="website">
 
@@ -43,15 +43,15 @@
                 <circle class="pl-ring-track" cx="50" cy="50" r="42" />
                 <circle class="pl-ring-fill" cx="50" cy="50" r="42" />
             </svg>
-            <!-- Monogram -->
+            <!-- Logo mark -->
             <div class="pl-monogram">
-                <span class="pl-b">B</span>
+                <span class="pl-b">CE</span>
             </div>
         </div>
         <!-- Word reveal below -->
         <div class="pl-name">
-            <span class="pl-word pl-w1">Biprasish</span>
-            <span class="pl-word pl-w2">Chakraborty</span>
+            <span class="pl-word pl-w1">Creative</span>
+            <span class="pl-word pl-w2">Edits</span>
         </div>
     </div>
 
@@ -63,7 +63,7 @@
     <nav id="navbar">
         <div class="nav-inner">
             <a href="#hero" class="nav-logo" id="nav-logo-link">
-                <span class="logo-b">B</span><span class="logo-rest">iprasish</span>
+                <span class="logo-b">C</span><span class="logo-rest">reativeEdits</span>
             </a>
 
             <ul class="nav-menu" id="nav-menu">
@@ -72,7 +72,15 @@
                 <li><a href="#services" class="nav-link">Services</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+                <li><a href="store.html" class="nav-store-btn" id="nav-store-link">
+                        <i class="fa-solid fa-bag-shopping"></i> Store
+                    </a></li>
             </ul>
+
+            <!-- Dark Mode Toggle -->
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <i class="fa-solid fa-moon" id="theme-icon"></i>
+            </button>
 
             <button class="nav-burger" id="nav-burger" aria-label="Toggle menu">
                 <span></span><span></span>
@@ -86,6 +94,7 @@
         <div class="hero-ambient">
             <div class="ambient-blob blob-1"></div>
             <div class="ambient-blob blob-2"></div>
+            <div class="ambient-blob blob-3"></div>
         </div>
 
         <div class="hero-content">
@@ -95,8 +104,8 @@
             </div>
 
             <h1 class="hero-title" id="hero-title">
-                <span class="title-line">Biprasish</span>
-                <span class="title-line title-accent">Chakraborty</span>
+                <span class="title-line title-crazy">The Frame</span>
+                <span class="title-line title-accent">Alchemist</span>
             </h1>
 
             <p class="hero-subtitle" id="hero-subtitle">
@@ -105,9 +114,12 @@
             </p>
 
             <div class="hero-actions" id="hero-actions">
-                <a href="#showreel" class="btn-primary" id="btn-showreel">
-                    <span>Watch Showreel</span>
-                    <i class="fa-solid fa-play"></i>
+                <a href="#showreel" class="btn-primary btn-showreel-animated" id="btn-showreel">
+                    <span class="btn-showreel-play-icon">
+                        <i class="fa-solid fa-play"></i>
+                    </span>
+                    <span class="btn-showreel-text">Watch Showreel</span>
+                    <span class="btn-showreel-ripple"></span>
                 </a>
                 <a href="#contact" class="btn-ghost" id="btn-contact-hero">Start a Project</a>
             </div>
@@ -115,7 +127,7 @@
             <div class="hero-stats" id="hero-stats">
                 <div class="stat">
                     <span class="stat-num" data-target="2">0</span><span class="stat-suf">+</span>
-                    <span class="stat-label">Years Experience</span>
+                    <span class="stat-label">Yrs Experience</span>
                 </div>
                 <div class="stat-sep"></div>
                 <div class="stat">
@@ -486,9 +498,20 @@
             <h2 class="section-title reveal">How We Work Together</h2>
             <p class="section-desc reveal">Choose the collaboration model that fits your goals.</p>
 
+            <!-- Service Filter Tabs -->
+            <div class="service-tabs reveal" id="service-tabs">
+                <button class="service-tab active" data-filter="all" id="tab-all">All Plans</button>
+                <button class="service-tab" data-filter="short" id="tab-short">
+                    <i class="fa-solid fa-bolt"></i> Short Term
+                </button>
+                <button class="service-tab" data-filter="long" id="tab-long">
+                    <i class="fa-solid fa-handshake"></i> Long Term
+                </button>
+            </div>
+
             <div class="services-grid reveal">
 
-                <div class="service-card">
+                <div class="service-card" data-type="short">
                     <div class="service-icon"><i class="fa-regular fa-scissors"></i></div>
                     <h3 class="service-name">Per Project</h3>
                     <p class="service-type">Single Asset Delivery</p>
@@ -501,7 +524,7 @@
                     <a href="#contact" class="service-cta" id="btn-perproject">Book a Project</a>
                 </div>
 
-                <div class="service-card service-featured">
+                <div class="service-card service-featured" data-type="long">
                     <div class="service-badge">Most Popular</div>
                     <div class="service-icon"><i class="fa-regular fa-calendar-check"></i></div>
                     <h3 class="service-name">Monthly Retainer</h3>
@@ -516,7 +539,7 @@
                     <a href="#contact" class="service-cta service-cta-primary" id="btn-retainer">Start Retainer</a>
                 </div>
 
-                <div class="service-card">
+                <div class="service-card" data-type="long">
                     <div class="service-icon"><i class="fa-regular fa-handshake"></i></div>
                     <h3 class="service-name">Long-Term Partner</h3>
                     <p class="service-type">Equity / Revenue Share</p>
@@ -541,12 +564,13 @@
             <h2 class="section-title reveal">What Clients Say</h2>
         </div>
 
-        <div class="testi-ticker-wrap reveal">
-            <div class="testi-ticker-track">
+        <div class="testi-ticker-wrap reveal" id="testi-ticker-wrap">
+            <div class="testi-ticker-track" id="testi-ticker-track">
                 <!-- Set A -->
                 <div class="testi-card">
                     <div class="testi-stars">★★★★★</div>
-                    <p>"Biprasish fundamentally changed how our brand creates content. His understanding of retention
+                    <p>"CreativeEdits fundamentally changed how our brand creates content. His understanding of
+                        retention
                         mechanics is absolutely unmatched."</p>
                     <div class="testi-author">
                         <div class="testi-avatar">A</div>
@@ -582,7 +606,8 @@
                 </div>
                 <div class="testi-card">
                     <div class="testi-stars">★★★★★</div>
-                    <p>"I was skeptical about hiring out my editing, but Biprasish brought a completely new perspective
+                    <p>"I was skeptical about hiring out my editing, but CreativeEdits brought a completely new
+                        perspective
                         that doubled our average view duration."</p>
                     <div class="testi-author">
                         <div class="testi-avatar">E</div>
@@ -595,7 +620,8 @@
                 <!-- Set B (clone for infinite scroll) -->
                 <div class="testi-card">
                     <div class="testi-stars">★★★★★</div>
-                    <p>"Biprasish fundamentally changed how our brand creates content. His understanding of retention
+                    <p>"CreativeEdits fundamentally changed how our brand creates content. His understanding of
+                        retention
                         mechanics is absolutely unmatched."</p>
                     <div class="testi-author">
                         <div class="testi-avatar">A</div>
@@ -631,7 +657,8 @@
                 </div>
                 <div class="testi-card">
                     <div class="testi-stars">★★★★★</div>
-                    <p>"I was skeptical about hiring out my editing, but Biprasish brought a completely new perspective
+                    <p>"I was skeptical about hiring out my editing, but CreativeEdits brought a completely new
+                        perspective
                         that doubled our average view duration."</p>
                     <div class="testi-author">
                         <div class="testi-avatar">E</div>
@@ -651,9 +678,9 @@
             <div class="about-grid">
                 <div class="about-image-col reveal">
                     <div class="about-img-frame">
-                        <img src="images/profile.jpg" alt="Biprasish Chakraborty — Professional Video Editor">
+                        <img src="images/profile.jpg" alt="CreativeEdits — Professional Video Editor">
                         <div class="about-img-badge">
-                            <span class="badge-num">2+</span>
+                            <span class="badge-num" data-count-target="2" data-count-suffix="+">0+</span>
                             <span class="badge-txt">Years of<br>Excellence</span>
                         </div>
                     </div>
@@ -664,7 +691,9 @@
                     <h2 class="section-title">The Editor<br>Behind the Work</h2>
                     <div class="about-bio">
                         <p>I'm <strong>Biprasish Chakraborty</strong>, a video editor from Assam, India — building
-                            global digital empires for creators and brands.</p>
+                            global digital empires for creators and brands under the banner of
+                            <strong>CreativeEdits</strong>.
+                        </p>
                         <p>My edits have generated over <strong>10 million organic views</strong>. I don't just splice
                             clips — I craft psychological hooks that arrest attention from the very first frame and keep
                             viewers watching to the end.</p>
@@ -691,7 +720,14 @@
                         </div>
                     </div>
 
-                    <a href="#contact" class="btn-primary" id="btn-about-contact">Work With Me</a>
+                    <div class="about-cta-row">
+                        <a href="#contact" class="btn-primary" id="btn-about-contact">Work With Me</a>
+                        <a href="#showreel" class="btn-ghost" id="btn-about-showreel">Watch Showreel</a>
+                        <a href="store.html" class="btn-store" id="btn-store-open">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span>Store</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -724,13 +760,7 @@
                                 <span class="contact-link-val">@creativeedits.mov</span>
                             </div>
                         </a>
-                        <div class="contact-link">
-                            <div class="contact-link-icon"><i class="fa-regular fa-location-dot"></i></div>
-                            <div>
-                                <span class="contact-link-label">Location</span>
-                                <span class="contact-link-val">Assam, India · Remote Worldwide</span>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
@@ -773,8 +803,8 @@
     <footer id="footer">
         <div class="container footer-inner">
             <div class="footer-left">
-                <a href="#hero" class="footer-logo">Biprasish Chakraborty</a>
-                <p>© 2026 Biprasish Chakraborty. All rights reserved.</p>
+                <a href="#hero" class="footer-logo">CreativeEdits</a>
+                <p>© 2026 CreativeEdits. All rights reserved.</p>
             </div>
             <div class="footer-socials">
                 <a href="https://www.instagram.com/creativeedits.mov" target="_blank" aria-label="Instagram"
@@ -792,19 +822,160 @@
         </div>
     </footer>
 
+    <!-- ========== STORE MODAL ========== -->
+    <div id="store-modal" class="store-modal-overlay hidden" role="dialog" aria-modal="true" aria-label="Pricing Store">
+        <div class="store-modal-box">
+
+            <!-- Header -->
+            <div class="store-modal-header">
+                <div class="store-modal-title">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>CreativeEdits Store</span>
+                </div>
+
+                <!-- Currency Toggle -->
+                <div class="store-currency-toggle">
+                    <button class="store-curr-btn active" data-currency="inr" id="btn-inr">
+                        <span class="flag">🇮🇳</span> Indian
+                    </button>
+                    <button class="store-curr-btn" data-currency="usd" id="btn-usd">
+                        <span class="flag">🌍</span> International
+                    </button>
+                </div>
+
+                <button class="store-close-btn" id="store-close-btn" aria-label="Close store">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <p class="store-subtitle">Transparent pricing. Premium quality. Pick your plan.</p>
+
+            <!-- Plans Grid -->
+            <div class="store-plans-grid">
+
+                <!-- Short Form -->
+                <div class="store-plan-card">
+                    <div class="store-plan-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                    <h3 class="store-plan-name">Shorts &amp; Reels</h3>
+                    <p class="store-plan-desc">Scroll-stopping vertical content for YouTube Shorts, Instagram Reels
+                        &amp; TikTok.</p>
+                    <div class="store-plan-price">
+                        <span class="price-symbol inr-show">₹</span>
+                        <span class="price-symbol usd-show">$</span>
+                        <span class="price-amount" data-inr="999" data-usd="12">999</span>
+                        <span class="price-per">/ video</span>
+                    </div>
+                    <ul class="store-plan-features">
+                        <li><i class="fa-solid fa-check"></i> Hook + retention editing</li>
+                        <li><i class="fa-solid fa-check"></i> Captions &amp; SFX</li>
+                        <li><i class="fa-solid fa-check"></i> 2 revisions</li>
+                        <li><i class="fa-solid fa-check"></i> 2-day delivery</li>
+                    </ul>
+                    <a href="#contact" class="store-plan-cta"
+                        onclick="document.getElementById('store-modal').classList.add('hidden')">Get Started</a>
+                </div>
+
+                <!-- YouTube Long Form -->
+                <div class="store-plan-card store-plan-popular">
+                    <div class="store-popular-badge">Most Popular</div>
+                    <div class="store-plan-icon"><i class="fa-brands fa-youtube"></i></div>
+                    <h3 class="store-plan-name">YouTube Long Form</h3>
+                    <p class="store-plan-desc">Cinematic storytelling for YouTube channels. Full edit with motion
+                        graphics &amp; color grade.</p>
+                    <div class="store-plan-price">
+                        <span class="price-symbol inr-show">₹</span>
+                        <span class="price-symbol usd-show">$</span>
+                        <span class="price-amount" data-inr="2999" data-usd="36">2999</span>
+                        <span class="price-per">/ video</span>
+                    </div>
+                    <ul class="store-plan-features">
+                        <li><i class="fa-solid fa-check"></i> Full cinematic edit</li>
+                        <li><i class="fa-solid fa-check"></i> Motion graphics &amp; titles</li>
+                        <li><i class="fa-solid fa-check"></i> Color grade</li>
+                        <li><i class="fa-solid fa-check"></i> 3 revisions</li>
+                        <li><i class="fa-solid fa-check"></i> 4-day delivery</li>
+                    </ul>
+                    <a href="#contact" class="store-plan-cta"
+                        onclick="document.getElementById('store-modal').classList.add('hidden')">Get Started</a>
+                </div>
+
+                <!-- Brand / Commercial -->
+                <div class="store-plan-card">
+                    <div class="store-plan-icon"><i class="fa-solid fa-clapperboard"></i></div>
+                    <h3 class="store-plan-name">Brand / Commercial</h3>
+                    <p class="store-plan-desc">Premium ad &amp; commercial edits for businesses and product brands.</p>
+                    <div class="store-plan-price">
+                        <span class="price-symbol inr-show">₹</span>
+                        <span class="price-symbol usd-show">$</span>
+                        <span class="price-amount" data-inr="4999" data-usd="60">4999</span>
+                        <span class="price-per">/ video</span>
+                    </div>
+                    <ul class="store-plan-features">
+                        <li><i class="fa-solid fa-check"></i> Ad-optimised storytelling</li>
+                        <li><i class="fa-solid fa-check"></i> VFX &amp; visual effects</li>
+                        <li><i class="fa-solid fa-check"></i> Music &amp; sound design</li>
+                        <li><i class="fa-solid fa-check"></i> Unlimited revisions</li>
+                    </ul>
+                    <a href="#contact" class="store-plan-cta"
+                        onclick="document.getElementById('store-modal').classList.add('hidden')">Get Started</a>
+                </div>
+
+                <!-- Long-Term Monthly -->
+                <div class="store-plan-card store-plan-monthly">
+                    <div class="store-plan-icon"><i class="fa-solid fa-handshake"></i></div>
+                    <h3 class="store-plan-name">Long-Term Partner</h3>
+                    <p class="store-plan-desc">Monthly retainer — become a dedicated creative partner for your channel
+                        or brand.</p>
+                    <div class="store-plan-price">
+                        <span class="price-symbol inr-show">₹</span>
+                        <span class="price-symbol usd-show">$</span>
+                        <span class="price-amount" data-inr="15999" data-usd="199">15999</span>
+                        <span class="price-per">/ month</span>
+                    </div>
+                    <ul class="store-plan-features">
+                        <li><i class="fa-solid fa-check"></i> Dedicated team member</li>
+                        <li><i class="fa-solid fa-check"></i> Unlimited videos</li>
+                        <li><i class="fa-solid fa-check"></i> Strategy &amp; direction</li>
+                        <li><i class="fa-solid fa-check"></i> Priority support 24/7</li>
+                        <li><i class="fa-solid fa-check"></i> Revenue share model</li>
+                    </ul>
+                    <a href="#contact" class="store-plan-cta"
+                        onclick="document.getElementById('store-modal').classList.add('hidden')">Partner Up</a>
+                </div>
+
+            </div><!-- /store-plans-grid -->
+
+            <p class="store-note">All prices are per-deliverable unless stated. Custom quotes available — <a
+                    href="#contact" onclick="document.getElementById('store-modal').classList.add('hidden')">reach
+                    out</a>.</p>
+        </div>
+    </div>
+
     <!-- ========== AI ASSISTANT ========== -->
     <div id="ai-widget">
         <!-- FAB -->
-        <button id="ai-fab" aria-label="Open AI Assistant">
-            <i class="fa-solid fa-sparkles"></i>
+        <button id="ai-fab" aria-label="Open Creative AI">
+            <!-- AI brain SVG icon -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12 2C9.5 2 7.5 3.5 7 5.5C5.3 5.9 4 7.4 4 9.2C4 9.7 4.1 10.1 4.3 10.5C3.5 11.1 3 12 3 13C3 14.5 4 15.8 5.4 16.3C5.7 17.9 6.8 19.2 8.2 19.7C8.1 19.9 8 20.2 8 20.5C8 21.3 8.7 22 9.5 22C10 22 10.5 21.8 10.8 21.4C11.2 21.8 11.6 22 12 22C12.4 22 12.8 21.8 13.2 21.4C13.5 21.8 14 22 14.5 22C15.3 22 16 21.3 16 20.5C16 20.2 15.9 19.9 15.8 19.7C17.2 19.2 18.3 17.9 18.6 16.3C20 15.8 21 14.5 21 13C21 12 20.5 11.1 19.7 10.5C19.9 10.1 20 9.7 20 9.2C20 7.4 18.7 5.9 17 5.5C16.5 3.5 14.5 2 12 2Z"
+                    stroke="white" stroke-width="1.5" stroke-linejoin="round" />
+                <circle cx="9" cy="10" r="1" fill="white" />
+                <circle cx="15" cy="10" r="1" fill="white" />
+                <path d="M9 14C9.5 15 10.6 15.5 12 15.5C13.4 15.5 14.5 15 15 14" stroke="white" stroke-width="1.5"
+                    stroke-linecap="round" />
+            </svg>
         </button>
 
         <!-- Chat Window -->
         <div id="ai-chat" class="hidden">
             <div class="ai-chat-header">
                 <div class="ai-chat-title">
-                    <span class="ai-status-dot"></span>
-                    <span>Biprasish AI</span>
+                    <span class="ai-logo-mark">CE</span>
+                    <div class="ai-title-text">
+                        <span class="ai-title-name">Creative AI</span>
+                        <span class="ai-title-sub"><span class="ai-status-dot"></span> Online</span>
+                    </div>
                 </div>
                 <button id="ai-close-btn" aria-label="Close chat"><i class="fa-solid fa-xmark"></i></button>
             </div>

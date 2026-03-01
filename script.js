@@ -1,5 +1,5 @@
 // =====================================================
-//  Biprasish Portfolio — Apple-Style JS
+//  CreativeEdits Portfolio — JS
 // =====================================================
 
 'use strict';
@@ -9,24 +9,43 @@
     const preloader = document.getElementById('preloader');
     if (!preloader) return;
 
-    // Wait for all animations to finish (ring ~1.6s + name ~1.45s = 2s total)
-    // then fade out with a premium scale exit
     const dismiss = () => {
         preloader.classList.add('fade-out');
         setTimeout(() => preloader.remove(), 600);
     };
 
     window.addEventListener('load', () => {
-        // Minimum 2.2 s so animations have time to play fully
         setTimeout(dismiss, 2200);
     });
 
-    // Safety: never block the page for more than 4 s
     setTimeout(dismiss, 4000);
 })();
 
 
-// ── 2. CUSTOM CURSOR ──────────────────────────────────
+// ── 2. DARK / LIGHT MODE ──────────────────────────────
+(function initTheme() {
+    const btn = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+    const html = document.documentElement;
+
+    // Load saved preference
+    const saved = localStorage.getItem('ce-theme') || 'light';
+    html.setAttribute('data-theme', saved);
+    if (icon) icon.className = saved === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+        const current = html.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('ce-theme', next);
+        if (icon) icon.className = next === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    });
+})();
+
+
+// ── 3. CUSTOM CURSOR ──────────────────────────────────
 (function initCursor() {
     const dot = document.getElementById('cursor-dot');
     const ring = document.getElementById('cursor-ring');
@@ -34,7 +53,6 @@
 
     let mx = -200, my = -200;
     let rx = -200, ry = -200;
-    let rafId;
 
     window.addEventListener('mousemove', (e) => {
         mx = e.clientX;
@@ -42,19 +60,14 @@
     });
 
     function tick() {
-        // Dot: instant
         dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
-
-        // Ring: smooth interpolation
         rx += (mx - rx) * 0.14;
         ry += (my - ry) * 0.14;
         ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
-
-        rafId = requestAnimationFrame(tick);
+        requestAnimationFrame(tick);
     }
     tick();
 
-    // Hover states
     const targets = 'a, button, input, textarea, select, [role="button"], .work-video-wrap, .service-card, .pillar, .contact-link, .testi-card';
     document.querySelectorAll(targets).forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
@@ -72,21 +85,19 @@
 })();
 
 
-// ── 3. NAVBAR ─────────────────────────────────────────
+// ── 4. NAVBAR ─────────────────────────────────────────
 (function initNavbar() {
     const navbar = document.getElementById('navbar');
     const burger = document.getElementById('nav-burger');
     const menu = document.getElementById('nav-menu');
     if (!navbar) return;
 
-    // Scroll class
     const onScroll = () => {
         navbar.classList.toggle('scrolled', window.scrollY > 40);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Mobile toggle
     if (burger && menu) {
         burger.addEventListener('click', () => {
             const open = menu.classList.toggle('open');
@@ -94,7 +105,6 @@
             document.body.style.overflow = open ? 'hidden' : '';
         });
 
-        // Close on link click
         menu.querySelectorAll('a').forEach(a => {
             a.addEventListener('click', () => {
                 menu.classList.remove('open');
@@ -106,7 +116,7 @@
 })();
 
 
-// ── 4. SCROLL REVEAL ──────────────────────────────────
+// ── 5. SCROLL REVEAL ──────────────────────────────────
 (function initReveal() {
     const els = document.querySelectorAll('.reveal');
     if (!els.length) return;
@@ -124,7 +134,7 @@
 })();
 
 
-// ── 5. HERO COUNTERS ──────────────────────────────────
+// ── 6. HERO COUNTERS ──────────────────────────────────
 (function initCounters() {
     const statNums = document.querySelectorAll('.stat-num');
     if (!statNums.length) return;
@@ -136,14 +146,12 @@
             const target = parseInt(el.dataset.target, 10);
             if (isNaN(target)) return;
 
-            let start = 0;
-            const duration = 1200;
+            const duration = 1400;
             const startTime = performance.now();
 
             function step(now) {
                 const elapsed = now - startTime;
                 const progress = Math.min(elapsed / duration, 1);
-                // Ease-out cubic
                 const ease = 1 - Math.pow(1 - progress, 3);
                 el.textContent = Math.round(ease * target);
                 if (progress < 1) requestAnimationFrame(step);
@@ -158,7 +166,45 @@
 })();
 
 
-// ── 6. SHOWREEL CONTROLS ──────────────────────────────
+// ── 7. ABOUT BADGE COUNTER ────────────────────────────
+(function initBadgeCounter() {
+    const badgeNum = document.querySelector('.badge-num[data-count-target]');
+    if (!badgeNum) return;
+
+    const target = parseInt(badgeNum.dataset.countTarget, 10);
+    const suffix = badgeNum.dataset.countSuffix || '';
+    if (isNaN(target)) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const duration = 1600;
+            const startTime = performance.now();
+
+            function step(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(ease * target);
+                badgeNum.textContent = current + suffix;
+
+                // Tick effect
+                badgeNum.classList.add('count-tick');
+                setTimeout(() => badgeNum.classList.remove('count-tick'), 120);
+
+                if (progress < 1) requestAnimationFrame(step);
+            }
+
+            requestAnimationFrame(step);
+            observer.unobserve(e.target);
+        });
+    }, { threshold: 0.5 });
+
+    observer.observe(badgeNum);
+})();
+
+
+// ── 8. SHOWREEL CONTROLS ──────────────────────────────
 (function initShowreel() {
     const video = document.getElementById('reel-video');
     const playBtn = document.getElementById('reel-play-btn');
@@ -167,7 +213,6 @@
     const muteIcon = document.getElementById('reel-mute-icon');
     if (!video) return;
 
-    // Play/Pause
     if (playBtn) {
         playBtn.addEventListener('click', () => {
             if (video.paused) {
@@ -180,7 +225,6 @@
         });
     }
 
-    // Mute/Unmute
     if (muteBtn) {
         muteBtn.addEventListener('click', () => {
             video.muted = !video.muted;
@@ -190,7 +234,6 @@
         });
     }
 
-    // Auto-pause when out of view
     const ob = new IntersectionObserver((entries) => {
         entries.forEach(e => {
             if (!e.isIntersecting) video.pause();
@@ -200,7 +243,7 @@
 })();
 
 
-// ── 7. WORK VIDEO PLAYERS ─────────────────────────────
+// ── 9. WORK VIDEO PLAYERS ─────────────────────────────
 (function initWorkVideos() {
     document.querySelectorAll('.work-video-wrap').forEach(wrap => {
         const video = wrap.querySelector('.work-video');
@@ -209,17 +252,15 @@
         const timeEl = wrap.querySelector('.wv-time');
         if (!video || !playBtn) return;
 
-        // Auto-thumbnail via Cloudinary trick
+        // Auto-thumbnail via Cloudinary
         const src = video.getAttribute('src') || '';
         const hasPoster = video.getAttribute('poster') && !video.getAttribute('poster').includes('unsplash');
         if (!hasPoster && src.includes('cloudinary.com') && src.endsWith('.mp4')) {
             video.setAttribute('poster', src.replace('.mp4', '.jpg'));
         }
 
-        // Play/Pause
         const togglePlay = () => {
             if (video.paused) {
-                // Pause all other videos
                 document.querySelectorAll('.work-video').forEach(v => {
                     if (v !== video) {
                         v.pause();
@@ -245,7 +286,6 @@
             togglePlay();
         });
 
-        // Seek bar
         if (seek) {
             video.addEventListener('timeupdate', () => {
                 if (!isNaN(video.duration) && video.duration > 0) {
@@ -269,7 +309,6 @@
             playBtn.querySelector('i').className = 'fa-solid fa-play';
         });
 
-        // Auto pause on scroll out
         const ob = new IntersectionObserver((entries) => {
             entries.forEach(e => { if (!e.isIntersecting) video.pause(); });
         }, { threshold: 0.1 });
@@ -285,7 +324,201 @@
 })();
 
 
-// ── 8. CONTACT FORM ───────────────────────────────────
+// ── 10. SERVICE FILTER TABS ───────────────────────────
+(function initServiceTabs() {
+    const tabs = document.querySelectorAll('.service-tab');
+    const cards = document.querySelectorAll('.service-card');
+    if (!tabs.length || !cards.length) return;
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const filter = tab.dataset.filter;
+            cards.forEach(card => {
+                if (filter === 'all' || card.dataset.type === filter) {
+                    card.classList.remove('hidden-card');
+                } else {
+                    card.classList.add('hidden-card');
+                }
+            });
+        });
+    });
+})();
+
+
+// ── 10b. STORE MODAL ──────────────────────────────────
+(function initStore() {
+    const openBtn = document.getElementById('btn-store-open');
+    const modal = document.getElementById('store-modal');
+    const closeBtn = document.getElementById('store-close-btn');
+    const inrBtn = document.getElementById('btn-inr');
+    const usdBtn = document.getElementById('btn-usd');
+    if (!openBtn || !modal) return;
+
+    // Open
+    openBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close via X button
+    closeBtn?.addEventListener('click', closeStore);
+
+    // Close via backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeStore();
+    });
+
+    // Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeStore();
+    });
+
+    function closeStore() {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    // Currency toggle
+    function setCurrency(currency) {
+        // Update toggle buttons
+        inrBtn?.classList.toggle('active', currency === 'inr');
+        usdBtn?.classList.toggle('active', currency === 'usd');
+
+        // Update modal data attribute (CSS handles symbol show/hide)
+        modal.setAttribute('data-currency', currency);
+
+        // Animate price amounts
+        document.querySelectorAll('.price-amount').forEach(el => {
+            const newVal = currency === 'inr' ? el.dataset.inr : el.dataset.usd;
+            if (!newVal) return;
+
+            // Count-up animation
+            const start = parseInt(el.textContent.replace(/,/g, ''), 10) || 0;
+            const end = parseInt(newVal, 10);
+            const duration = 500;
+            const startTime = performance.now();
+
+            function step(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(start + (end - start) * ease).toLocaleString('en-IN');
+                if (progress < 1) requestAnimationFrame(step);
+                else el.textContent = parseInt(newVal).toLocaleString('en-IN');
+            }
+            requestAnimationFrame(step);
+        });
+    }
+
+    inrBtn?.addEventListener('click', () => setCurrency('inr'));
+    usdBtn?.addEventListener('click', () => setCurrency('usd'));
+
+    // Init default
+    modal.setAttribute('data-currency', 'inr');
+})()
+
+
+    // ── 11. TESTIMONIALS — Touch / Drag Scroll ────────────
+    (function initTestiDrag() {
+        const wrap = document.getElementById('testi-ticker-wrap');
+        const track = document.getElementById('testi-ticker-track');
+        if (!wrap || !track) return;
+
+        let isDragging = false;
+        let startX = 0;
+        let scrollLeft = 0;
+        let velocity = 0;
+        let lastX = 0;
+        let rafId;
+
+        // Mouse events
+        wrap.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.pageX;
+            lastX = e.pageX;
+            scrollLeft = wrap.scrollLeft;
+            track.classList.add('paused');
+            cancelAnimationFrame(rafId);
+            wrap.style.cursor = 'grabbing';
+        });
+
+        wrap.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const dx = e.pageX - startX;
+            velocity = e.pageX - lastX;
+            lastX = e.pageX;
+            wrap.scrollLeft = scrollLeft - dx;
+        });
+
+        const stopDrag = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            wrap.style.cursor = 'grab';
+
+            // Inertia
+            const decelerate = () => {
+                if (Math.abs(velocity) < 0.5) {
+                    track.classList.remove('paused');
+                    return;
+                }
+                wrap.scrollLeft -= velocity;
+                velocity *= 0.92;
+                rafId = requestAnimationFrame(decelerate);
+            };
+            decelerate();
+        };
+
+        wrap.addEventListener('mouseup', stopDrag);
+        wrap.addEventListener('mouseleave', stopDrag);
+
+        // Touch events
+        wrap.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].pageX;
+            lastX = startX;
+            scrollLeft = wrap.scrollLeft;
+            track.classList.add('paused');
+            cancelAnimationFrame(rafId);
+            velocity = 0;
+        }, { passive: true });
+
+        wrap.addEventListener('touchmove', (e) => {
+            const dx = e.touches[0].pageX - startX;
+            velocity = e.touches[0].pageX - lastX;
+            lastX = e.touches[0].pageX;
+            wrap.scrollLeft = scrollLeft - dx;
+        }, { passive: true });
+
+        wrap.addEventListener('touchend', () => {
+            const decelerate = () => {
+                if (Math.abs(velocity) < 0.5) {
+                    track.classList.remove('paused');
+                    return;
+                }
+                wrap.scrollLeft -= velocity;
+                velocity *= 0.92;
+                rafId = requestAnimationFrame(decelerate);
+            };
+            decelerate();
+        });
+
+        // Make overflow scrollable for drag support (but keep auto-scroll via CSS animation)
+        // We need to let the CSS animation drive normally, and only disable it during drag.
+        // The overflow scroll is the fallback on mobile.
+        wrap.style.overflowX = 'auto';
+        wrap.style.scrollbarWidth = 'none'; // Firefox
+        wrap.style.msOverflowStyle = 'none'; // IE
+        wrap.style.webkitOverflowScrolling = 'touch';
+
+        const hideScrollbar = document.createElement('style');
+        hideScrollbar.textContent = '#testi-ticker-wrap::-webkit-scrollbar { display: none; }';
+        document.head.appendChild(hideScrollbar);
+    })();
+
+
+// ── 12. CONTACT FORM ──────────────────────────────────
 (function initForm() {
     const form = document.getElementById('contactForm');
     const status = document.getElementById('form-status');
@@ -331,9 +564,9 @@
 })();
 
 
-// ── 9. BUTTON RIPPLE ──────────────────────────────────
+// ── 13. BUTTON RIPPLE ─────────────────────────────────
 (function initRipple() {
-    document.querySelectorAll('.btn-primary, .btn-ghost, .service-cta').forEach(btn => {
+    document.querySelectorAll('.btn-primary, .btn-ghost, .service-cta, .service-tab').forEach(btn => {
         btn.addEventListener('click', function (e) {
             const rect = this.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height) * 2;
@@ -343,6 +576,8 @@
             const ripple = document.createElement('span');
             ripple.className = 'btn-ripple';
             ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
             this.appendChild(ripple);
             setTimeout(() => ripple.remove(), 600);
         });
@@ -350,71 +585,56 @@
 })();
 
 
-// ── 10. GSAP SCROLL ANIMATIONS ────────────────────────
+// ── 14. GSAP SCROLL ANIMATIONS ────────────────────────
 (function initGSAP() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger);
 
-    // Subtle parallax on hero blobs
     gsap.to('.blob-1', {
-        y: -60,
-        ease: 'none',
+        y: -60, ease: 'none',
         scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 }
     });
     gsap.to('.blob-2', {
-        y: -40,
-        ease: 'none',
+        y: -40, ease: 'none',
         scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
     });
+    gsap.to('.blob-3', {
+        y: -25, x: 20, ease: 'none',
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 2 }
+    });
 
-    // Reel frame scale-in
     gsap.fromTo('.reel-frame', { scale: 0.96 }, {
-        scale: 1,
-        ease: 'power2.out',
-        duration: 1,
+        scale: 1, ease: 'power2.out', duration: 1,
         scrollTrigger: { trigger: '.reel-frame', start: 'top 85%' }
     });
 
-    // Work cards stagger
     ScrollTrigger.batch('.work-card', {
         onEnter: batch => gsap.fromTo(batch, { opacity: 0, y: 24 }, {
-            opacity: 1, y: 0,
-            duration: 0.55,
-            stagger: 0.07,
-            ease: 'power2.out'
+            opacity: 1, y: 0, duration: 0.55, stagger: 0.07, ease: 'power2.out'
         }),
         start: 'top 90%',
     });
 
-    // Service cards
     ScrollTrigger.batch('.service-card', {
         onEnter: batch => gsap.fromTo(batch, { opacity: 0, y: 20 }, {
-            opacity: 1, y: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: 'power2.out'
+            opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out'
         }),
         start: 'top 88%',
     });
 
-    // About image
     gsap.fromTo('.about-img-frame', { opacity: 0, x: -32 }, {
-        opacity: 1, x: 0,
-        duration: 0.9,
-        ease: 'power3.out',
+        opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
         scrollTrigger: { trigger: '.about-grid', start: 'top 80%' }
     });
 
     gsap.fromTo('.about-text-col', { opacity: 0, x: 32 }, {
-        opacity: 1, x: 0,
-        duration: 0.9,
-        ease: 'power3.out',
+        opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
         scrollTrigger: { trigger: '.about-grid', start: 'top 80%' }
     });
 })();
 
 
-// ── 11. AI CHAT WIDGET ────────────────────────────────
+// ── 15. AI CHAT WIDGET ────────────────────────────────
 (function initAIChat() {
     const fab = document.getElementById('ai-fab');
     const chat = document.getElementById('ai-chat');
@@ -424,7 +644,6 @@
     const chatBody = document.getElementById('ai-chat-body');
     if (!fab || !chat || !chatBody) return;
 
-    // Toggle
     fab.addEventListener('click', () => {
         chat.classList.remove('hidden');
         fab.style.display = 'none';
@@ -436,18 +655,16 @@
         fab.style.display = 'flex';
     });
 
-    // Initial greeting
-    setTimeout(() => appendBot("Hi! I'm Biprasish's AI assistant. Ask me about his work, services, or how to get started on a project."), 400);
+    setTimeout(() => appendBot("Hi! I'm Creative AI, your assistant for CreativeEdits. Ask me about our work, services, or how to get started on a project."), 400);
 
-    // AI Key (split to avoid instant revoke on GitHub)
     const _k = ["gsk_LheYrfkvuri5N", "W5Vxb1gWGdyb3FYk", "UIC3nlnHV0yMkzvd66C8pKl"];
     const GROQ_KEY = _k.join('');
 
     let history = [{
         role: 'system',
-        content: `You are the professional AI assistant for Biprasish Chakraborty, an elite video editor with 2+ years of experience and 10M+ organic views. 
-You represent his portfolio at creativeedits.mov.
-If a user asks about pricing, hiring, or working with Biprasish, collect their info one question at a time in this order:
+        content: `You are Creative AI, the professional AI assistant for CreativeEdits (run by Biprasish Chakraborty), an elite video editing studio with 2+ years of experience and 10M+ organic views.
+You represent the portfolio at creativeedits.mov.
+If a user asks about pricing, hiring, or working with us, collect their info one question at a time:
 1. Name
 2. Email
 3. Phone number
@@ -489,7 +706,6 @@ Keep responses concise, professional, and warm.`
             let reply = data.choices[0].message.content;
             history.push({ role: 'assistant', content: reply });
 
-            // Check for lead trigger
             const leadMatch = reply.match(/\[\[LEAD\|NAME:(.*?)\|EMAIL:(.*?)\|PHONE:(.*?)\|WORK:(.*?)\|MSG:(.*?)\]\]/is);
             if (leadMatch) {
                 reply = reply.replace(/\[\[LEAD.*?\]\]/is, '').trim();
@@ -514,7 +730,7 @@ Keep responses concise, professional, and warm.`
         fd.append('email', email);
         fd.append('phone', phone);
         fd.append('service', service);
-        fd.append('message', `[VIA AI ASSISTANT]\n\nPhone: ${phone}\nService: ${service}\n\n${message}`);
+        fd.append('message', `[VIA CREATIVE AI]\n\nPhone: ${phone}\nService: ${service}\n\n${message}`);
 
         fetch('https://formspree.io/f/meelvolq', {
             method: 'POST', body: fd,
@@ -545,7 +761,6 @@ Keep responses concise, professional, and warm.`
     function updateMsg(id, text) {
         const m = document.getElementById(id);
         if (!m) return;
-        // Support **bold** formatting
         m.innerHTML = escHtml(text).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         m.style.opacity = '1';
         chatBody.scrollTop = chatBody.scrollHeight;
