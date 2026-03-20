@@ -22,26 +22,12 @@
 })();
 
 
-// ── 2. DARK / LIGHT MODE ──────────────────────────────
+// ── 2. THEME — Force Light Only ───────────────────────
 (function initTheme() {
-    const btn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
     const html = document.documentElement;
-
-    // Load saved preference
-    const saved = localStorage.getItem('ce-theme') || 'light';
-    html.setAttribute('data-theme', saved);
-    if (icon) icon.className = saved === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-
-    if (!btn) return;
-
-    btn.addEventListener('click', () => {
-        const current = html.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        html.setAttribute('data-theme', next);
-        localStorage.setItem('ce-theme', next);
-        if (icon) icon.className = next === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-    });
+    // Always force light theme, clear any saved dark preference
+    html.setAttribute('data-theme', 'light');
+    localStorage.removeItem('ce-theme');
 })();
 
 

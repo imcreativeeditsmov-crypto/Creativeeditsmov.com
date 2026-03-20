@@ -38,10 +38,16 @@
     <!-- ========== PRELOADER ========== -->
     <div id="preloader">
         <div class="pl-wrap">
-            <!-- SVG ring -->
-            <svg class="pl-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle class="pl-ring-track" cx="50" cy="50" r="42" />
-                <circle class="pl-ring-fill" cx="50" cy="50" r="42" />
+            <!-- Outer pulse ring -->
+            <div class="pl-pulse-ring"></div>
+            <!-- Dual SVG rings -->
+            <svg class="pl-ring pl-ring-outer" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle class="pl-ring-track" cx="50" cy="50" r="44" />
+                <circle class="pl-ring-fill" cx="50" cy="50" r="44" />
+            </svg>
+            <svg class="pl-ring pl-ring-inner" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle class="pl-ring-track-2" cx="50" cy="50" r="32" />
+                <circle class="pl-ring-fill-2" cx="50" cy="50" r="32" />
             </svg>
             <!-- Logo mark -->
             <div class="pl-monogram">
@@ -53,6 +59,8 @@
             <span class="pl-word pl-w1">Creative</span>
             <span class="pl-word pl-w2">Edits</span>
         </div>
+        <!-- Tagline -->
+        <p class="pl-tagline">The Frame Alchemist</p>
     </div>
 
     <!-- ========== CUSTOM CURSOR ========== -->
@@ -63,32 +71,32 @@
     <div id="nav-backdrop" aria-hidden="true"></div>
     <nav id="navbar">
         <div class="nav-inner">
-            <a href="#hero" class="nav-logo" id="nav-logo-link">
-                <span class="logo-b">C</span><span class="logo-rest">reativeEdits</span>
-            </a>
+            <!-- Pill container -->
+            <div class="nav-pill">
+                <a href="#hero" class="nav-logo" id="nav-logo-link">
+                    <span class="logo-b">C</span><span class="logo-rest">reativeEdits</span>
+                </a>
 
-            <ul class="nav-menu" id="nav-menu">
-                <li class="nav-menu-header">
-                    <span class="nav-menu-brand"><span>C</span>reativeEdits</span>
-                    <button class="nav-close-btn" id="nav-close-btn" aria-label="Close menu">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </li>
-                <li><a href="#showreel" class="nav-link">Showreel</a></li>
-                <li><a href="#work" class="nav-link">Work</a></li>
-                <li><a href="#services" class="nav-link">Services</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li class="nav-menu-divider"></li>
-                <li><a href="#contact" class="nav-cta nav-cta-full">Get in Touch</a></li>
-                <li><a href="store.html" class="nav-store-btn nav-store-full" id="nav-store-link">
-                        <i class="fa-solid fa-bag-shopping"></i> Store
-                    </a></li>
-            </ul>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#showreel" class="nav-link">Showreel</a></li>
+                    <li><a href="#work" class="nav-link">Work</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
 
-            <!-- Dark Mode Toggle -->
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-                <i class="fa-solid fa-moon" id="theme-icon"></i>
-            </button>
+                <!-- Right icon group -->
+                <div class="nav-icons">
+                    <a href="#work" class="nav-icon-btn" aria-label="View Work" title="Portfolio">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </a>
+                    <a href="#about" class="nav-icon-btn" aria-label="About" title="About Me">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                    <a href="#contact" class="nav-icon-btn nav-icon-accent" aria-label="Contact" title="Get in Touch">
+                        <i class="fa-solid fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
 
             <button class="nav-burger" id="nav-burger" aria-label="Toggle menu">
                 <span></span><span></span>
@@ -151,8 +159,13 @@
         </div>
 
         <div class="hero-scroll-hint">
-            <div class="scroll-line"></div>
-            <span>Scroll</span>
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <div class="scroll-arrows">
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </section>
 
@@ -711,19 +724,19 @@
 
                     <div class="about-pillars">
                         <div class="pillar">
-                            <i class="fa-regular fa-chart-line"></i>
+                            <i class="fa-solid fa-chart-line"></i>
                             <span>Data-Driven Edits</span>
                         </div>
                         <div class="pillar">
-                            <i class="fa-regular fa-bolt"></i>
+                            <i class="fa-solid fa-bolt"></i>
                             <span>Fast Turnaround</span>
                         </div>
                         <div class="pillar">
-                            <i class="fa-regular fa-magnifying-glass"></i>
+                            <i class="fa-solid fa-magnifying-glass"></i>
                             <span>Micro-Detail Focus</span>
                         </div>
                         <div class="pillar">
-                            <i class="fa-regular fa-handshake"></i>
+                            <i class="fa-solid fa-handshake"></i>
                             <span>Unbreakable Trust</span>
                         </div>
                     </div>
@@ -731,10 +744,6 @@
                     <div class="about-cta-row">
                         <a href="#contact" class="btn-primary" id="btn-about-contact">Work With Me</a>
                         <a href="#showreel" class="btn-ghost" id="btn-about-showreel">Watch Showreel</a>
-                        <a href="store.html" class="btn-store" id="btn-store-open">
-                            <i class="fa-solid fa-bag-shopping"></i>
-                            <span>Store</span>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -830,149 +839,23 @@
         </div>
     </footer>
 
-    <!-- ========== STORE MODAL ========== -->
-    <div id="store-modal" class="store-modal-overlay hidden" role="dialog" aria-modal="true" aria-label="Pricing Store">
-        <div class="store-modal-box">
 
-            <!-- Header -->
-            <div class="store-modal-header">
-                <div class="store-modal-title">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span>CreativeEdits Store</span>
-                </div>
-
-                <!-- Currency Toggle -->
-                <div class="store-currency-toggle">
-                    <button class="store-curr-btn active" data-currency="inr" id="btn-inr">
-                        <span class="flag">🇮🇳</span> Indian
-                    </button>
-                    <button class="store-curr-btn" data-currency="usd" id="btn-usd">
-                        <span class="flag">🌍</span> International
-                    </button>
-                </div>
-
-                <button class="store-close-btn" id="store-close-btn" aria-label="Close store">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <p class="store-subtitle">Transparent pricing. Premium quality. Pick your plan.</p>
-
-            <!-- Plans Grid -->
-            <div class="store-plans-grid">
-
-                <!-- Short Form -->
-                <div class="store-plan-card">
-                    <div class="store-plan-icon"><i class="fa-solid fa-mobile-screen"></i></div>
-                    <h3 class="store-plan-name">Shorts &amp; Reels</h3>
-                    <p class="store-plan-desc">Scroll-stopping vertical content for YouTube Shorts, Instagram Reels
-                        &amp; TikTok.</p>
-                    <div class="store-plan-price">
-                        <span class="price-symbol inr-show">₹</span>
-                        <span class="price-symbol usd-show">$</span>
-                        <span class="price-amount" data-inr="999" data-usd="12">999</span>
-                        <span class="price-per">/ video</span>
-                    </div>
-                    <ul class="store-plan-features">
-                        <li><i class="fa-solid fa-check"></i> Hook + retention editing</li>
-                        <li><i class="fa-solid fa-check"></i> Captions &amp; SFX</li>
-                        <li><i class="fa-solid fa-check"></i> 2 revisions</li>
-                        <li><i class="fa-solid fa-check"></i> 2-day delivery</li>
-                    </ul>
-                    <a href="#contact" class="store-plan-cta"
-                        onclick="document.getElementById('store-modal').classList.add('hidden')">Get Started</a>
-                </div>
-
-                <!-- YouTube Long Form -->
-                <div class="store-plan-card store-plan-popular">
-                    <div class="store-popular-badge">Most Popular</div>
-                    <div class="store-plan-icon"><i class="fa-brands fa-youtube"></i></div>
-                    <h3 class="store-plan-name">YouTube Long Form</h3>
-                    <p class="store-plan-desc">Cinematic storytelling for YouTube channels. Full edit with motion
-                        graphics &amp; color grade.</p>
-                    <div class="store-plan-price">
-                        <span class="price-symbol inr-show">₹</span>
-                        <span class="price-symbol usd-show">$</span>
-                        <span class="price-amount" data-inr="2999" data-usd="36">2999</span>
-                        <span class="price-per">/ video</span>
-                    </div>
-                    <ul class="store-plan-features">
-                        <li><i class="fa-solid fa-check"></i> Full cinematic edit</li>
-                        <li><i class="fa-solid fa-check"></i> Motion graphics &amp; titles</li>
-                        <li><i class="fa-solid fa-check"></i> Color grade</li>
-                        <li><i class="fa-solid fa-check"></i> 3 revisions</li>
-                        <li><i class="fa-solid fa-check"></i> 4-day delivery</li>
-                    </ul>
-                    <a href="#contact" class="store-plan-cta"
-                        onclick="document.getElementById('store-modal').classList.add('hidden')">Get Started</a>
-                </div>
-
-                <!-- Brand / Commercial -->
-                <div class="store-plan-card">
-                    <div class="store-plan-icon"><i class="fa-solid fa-clapperboard"></i></div>
-                    <h3 class="store-plan-name">Brand / Commercial</h3>
-                    <p class="store-plan-desc">Premium ad &amp; commercial edits for businesses and product brands.</p>
-                    <div class="store-plan-price">
-                        <span class="price-symbol inr-show">₹</span>
-                        <span class="price-symbol usd-show">$</span>
-                        <span class="price-amount" data-inr="4999" data-usd="60">4999</span>
-                        <span class="price-per">/ video</span>
-                    </div>
-                    <ul class="store-plan-features">
-                        <li><i class="fa-solid fa-check"></i> Ad-optimised storytelling</li>
-                        <li><i class="fa-solid fa-check"></i> VFX &amp; visual effects</li>
-                        <li><i class="fa-solid fa-check"></i> Music &amp; sound design</li>
-                        <li><i class="fa-solid fa-check"></i> Unlimited revisions</li>
-                    </ul>
-                    <a href="#contact" class="store-plan-cta"
-                        onclick="document.getElementById('store-modal').classList.add('hidden')">Get Started</a>
-                </div>
-
-                <!-- Long-Term Monthly -->
-                <div class="store-plan-card store-plan-monthly">
-                    <div class="store-plan-icon"><i class="fa-solid fa-handshake"></i></div>
-                    <h3 class="store-plan-name">Long-Term Partner</h3>
-                    <p class="store-plan-desc">Monthly retainer — become a dedicated creative partner for your channel
-                        or brand.</p>
-                    <div class="store-plan-price">
-                        <span class="price-symbol inr-show">₹</span>
-                        <span class="price-symbol usd-show">$</span>
-                        <span class="price-amount" data-inr="15999" data-usd="199">15999</span>
-                        <span class="price-per">/ month</span>
-                    </div>
-                    <ul class="store-plan-features">
-                        <li><i class="fa-solid fa-check"></i> Dedicated team member</li>
-                        <li><i class="fa-solid fa-check"></i> Unlimited videos</li>
-                        <li><i class="fa-solid fa-check"></i> Strategy &amp; direction</li>
-                        <li><i class="fa-solid fa-check"></i> Priority support 24/7</li>
-                        <li><i class="fa-solid fa-check"></i> Revenue share model</li>
-                    </ul>
-                    <a href="#contact" class="store-plan-cta"
-                        onclick="document.getElementById('store-modal').classList.add('hidden')">Partner Up</a>
-                </div>
-
-            </div><!-- /store-plans-grid -->
-
-            <p class="store-note">All prices are per-deliverable unless stated. Custom quotes available — <a
-                    href="#contact" onclick="document.getElementById('store-modal').classList.add('hidden')">reach
-                    out</a>.</p>
-        </div>
-    </div>
 
     <!-- ========== AI ASSISTANT ========== -->
     <div id="ai-widget">
         <!-- FAB -->
         <button id="ai-fab" aria-label="Open Creative AI">
-            <!-- AI brain SVG icon -->
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M12 2C9.5 2 7.5 3.5 7 5.5C5.3 5.9 4 7.4 4 9.2C4 9.7 4.1 10.1 4.3 10.5C3.5 11.1 3 12 3 13C3 14.5 4 15.8 5.4 16.3C5.7 17.9 6.8 19.2 8.2 19.7C8.1 19.9 8 20.2 8 20.5C8 21.3 8.7 22 9.5 22C10 22 10.5 21.8 10.8 21.4C11.2 21.8 11.6 22 12 22C12.4 22 12.8 21.8 13.2 21.4C13.5 21.8 14 22 14.5 22C15.3 22 16 21.3 16 20.5C16 20.2 15.9 19.9 15.8 19.7C17.2 19.2 18.3 17.9 18.6 16.3C20 15.8 21 14.5 21 13C21 12 20.5 11.1 19.7 10.5C19.9 10.1 20 9.7 20 9.2C20 7.4 18.7 5.9 17 5.5C16.5 3.5 14.5 2 12 2Z"
-                    stroke="white" stroke-width="1.5" stroke-linejoin="round" />
-                <circle cx="9" cy="10" r="1" fill="white" />
-                <circle cx="15" cy="10" r="1" fill="white" />
-                <path d="M9 14C9.5 15 10.6 15.5 12 15.5C13.4 15.5 14.5 15 15 14" stroke="white" stroke-width="1.5"
-                    stroke-linecap="round" />
-            </svg>
+            <div class="ai-fab-inner">
+                <!-- Animated AI spark icon -->
+                <svg class="ai-fab-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Sparkle top -->
+                    <path class="ai-spark-path" d="M12 2L13.09 8.26L19 6L14.74 10.91L21 12L14.74 13.09L19 18L13.09 15.74L12 22L10.91 15.74L5 18L9.26 13.09L3 12L9.26 10.91L5 6L10.91 8.26L12 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+                    <!-- Center dot -->
+                    <circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/>
+                </svg>
+                <!-- Ping ring -->
+                <div class="ai-fab-ping"></div>
+            </div>
         </button>
 
         <!-- Chat Window -->
